@@ -1,67 +1,99 @@
-//package com.example.caminhosmarte;
-//
-//public class Caminho : IComparable<Caminho>, IRegistro<Caminho>
-//{
-//public const int tamCidadeOrigem = 15;
-//public const int tamCidadeDestino = 15;
-//
-//private string nomeOrigem;
-//private string nomeDestino;
-//        int distancia, tempo, custo;
-//
-//
-//        const int tamanhoRegistro =
-//        tamCidadeOrigem +  // cidadeOrigem
-//        tamCidadeDestino + //cidadeOrigem
+package com.example.caminhosmarte;
+
+import java.util.Locale;
+
+public class Caminho implements Comparable<Caminho> {
+    public final int tamCidadeOrigem = 15;
+    public final int tamCidadeDestino = 15;
+
+    private String nomeOrigem;
+    private String nomeDestino;
+    int distancia, tempo, custo;
+
+
+    final int tamanhoRegistro =
+            tamCidadeOrigem +  // cidadeOrigem
+                    tamCidadeDestino; //cidadeOrigem
 //        sizeof(int) +    // distancia
 //        sizeof(int) +    // tempo
 //        sizeof(int);     // custo
-//
-//public string NomeOrigem { get => nomeOrigem; set => nomeOrigem = value.PadRight(tamCidadeOrigem, ' ').Substring(0, tamCidadeOrigem); }
-//public string NomeDestino { get => nomeDestino; set => nomeDestino = value.PadRight(tamCidadeDestino, ' ').Substring(0, tamCidadeDestino); }
-//
-//public int Distancia { get => distancia; set => distancia = value; }
-//public int Tempo { get => tempo; set => tempo = value; }
-//public int Custo { get => custo; set => custo = value; }
-//
-//public Caminho()  // construtor default (construtor vazio), sem parâmetros
-//        {
-//        NomeOrigem = "";
-//        NomeDestino = "";
-//        Distancia = 0;
-//        Tempo = 0;
-//        Custo = 0;
-//        }
-//
-//public Caminho(string nomeOrigem, string nomeDestino, int distancia, int tempo, int custo)
-//        {
-//        this.NomeOrigem = nomeOrigem;
-//        this.NomeDestino = nomeDestino;
-//        this.Distancia = distancia;
-//        this.Tempo = tempo;
-//        this.Custo = custo;
-//        }
-//
-//
-//public int CompareTo(Caminho outroCam)
-//        {
-//        string iguiOri = "";
-//
-//
-//        string iguiDes = "";
-//        iguiOri = nomeOrigem + nomeDestino;
-//        iguiDes = outroCam.nomeOrigem + outroCam.nomeDestino;
-//
-//
-//        return iguiOri.ToUpperInvariant().CompareTo(iguiDes.ToUpperInvariant());
-//
-//        }
-//
-//public override string ToString()
-//        {
-//        return NomeOrigem + "" + NomeOrigem;
-//        }
-//
+
+    public String getNomeOrigem() {
+        return nomeOrigem;
+    }
+
+    public void setNomeOrigem(String nomeOrigem) {
+        this.nomeOrigem = nomeOrigem;
+    }
+
+    public String getNomeDestino() {
+        return nomeDestino;
+    }
+
+    public void setNomeDestino(String nomeOrigem) {
+        this.nomeDestino = nomeDestino;
+    }
+
+    public int getDistancia() {
+        return distancia;
+    }
+
+    public void setDistancia(int distancia) {
+        this.distancia = distancia;
+    }
+
+    public int getTempo() {
+        return tempo;
+    }
+
+    public void setTempo(int tempo) {
+        this.tempo = tempo;
+    }
+
+    public int getCusto() {
+        return custo;
+    }
+
+    public void setCusto(int custo) {
+        this.custo = custo;
+    }
+
+    public Caminho()  // construtor default (construtor vazio), sem parâmetros
+    {
+        setNomeOrigem("");
+        setNomeDestino("");
+        setDistancia(0);
+        setTempo(0);
+        setCusto(0);
+    }
+
+    public Caminho(String nomeOrigem, String nomeDestino, int distancia, int tempo, int custo) {
+        setNomeOrigem(nomeOrigem);
+        setNomeDestino(nomeDestino);
+        setDistancia(distancia);
+        setTempo(tempo);
+        setCusto(custo);
+    }
+
+
+    public int CompareTo(Caminho outroCam) {
+        String iguiOri = "";
+
+
+        String iguiDes = "";
+        iguiOri = nomeOrigem + nomeDestino;
+        iguiDes = outroCam.nomeOrigem + outroCam.nomeDestino;
+
+
+        return iguiOri.toUpperCase().compareTo(iguiDes.toUpperCase());
+    }
+
+    @Override
+    public int compareTo(Caminho caminho) {
+        return 0;
+    }
+}
+
 //public int TamanhoRegistro { get => tamanhoRegistro; }
 //public void LerRegistro(BinaryReader arquivo, long qualRegistro)
 //        {
@@ -129,4 +161,4 @@
 //        throw new NotImplementedException();
 //        }
 //        }
-//
+

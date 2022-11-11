@@ -1,9 +1,9 @@
 package com.example.caminhosmarte;
 
-interface IStack<Dado>
-{
-    int Tamanho () throws Exception;
-    boolean EstaVazia () throws Exception;
+interface IStack<Dado> {
+    int Tamanho() throws Exception;
+
+    boolean EstaVazia() throws Exception;
 
     void Empilhar(Dado elemento) throws Exception;
 
