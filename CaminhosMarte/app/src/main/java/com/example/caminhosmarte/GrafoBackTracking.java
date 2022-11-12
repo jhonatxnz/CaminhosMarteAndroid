@@ -165,7 +165,7 @@
 //        return caminhos;
 //    }
 //    //metodo que pga cidade por id
-//    public Cidade CidadeId(int cod, ListaSimples<Cidade> cidades)
+//    public Cidade CidadeId(String nome, ListaSimples<Cidade> cidades)
 //    {
 //        //posiciona no primeiro dado
 //        cidades.PosicionarNoPrimeiro();
@@ -174,7 +174,7 @@
 //        for (int i = 0; i < cidades.getTamanho(); i++)
 //        {
 //            //compara cod com cod
-//            if (int.Parse(cidades.DadoAtual().codigo) == cod)
+//            if (cidades.DadoAtual().getNome() == nome)
 //            {
 //                //retorna o dado atual
 //                return cidades.DadoAtual();

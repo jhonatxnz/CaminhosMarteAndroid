@@ -209,14 +209,14 @@
 //    public boolean RemoverDado(Dado dados) {
 //        if (ExisteDado(dados)) {
 //            // existeDado posicionou atual e anterior
-//            RemoverNo(ref atual, ref anterior);
+//            RemoverNo( atual,  anterior);
 //            return true;
 //        }
 //
 //        return false;
 //    }
 //
-//    private void RemoverNo(ref NoLista<Dado>atual, ref NoLista<Dado>anterior) {
+//    private void RemoverNo( NoLista<Dado>atual,  NoLista<Dado>anterior) {
 //        if (!EstaVazia()) {
 //            if (atual == primeiro) {
 //                primeiro = primeiro.prox;
@@ -249,14 +249,14 @@
 //    }
 //
 //    private void ProcurarMenorDado
-//            (ref NoLista<Dado>menorAteAgora,
-//             ref NoLista<Dado>anteriorAoMenor) {
+//            ( NoLista<Dado>menorAteAgora,
+//              NoLista<Dado>anteriorAoMenor) {
 //        menorAteAgora = primeiro;
 //        anteriorAoMenor = null;
 //
 //        IniciarPercursoSequencial();
 //        while (PodePercorrer()) {
-//            if (atual.info.compareTo(menorAteAgora.Info) < 0) {
+//            if (atual.info.compareTo(menorAteAgora.info) < 0) {
 //                anteriorAoMenor = anterior;
 //                menorAteAgora = atual;
 //            }
@@ -269,10 +269,10 @@
 //                antesDoMenor = null;
 //
 //        while (!this.EstaVazia()) {
-//            ProcurarMenorDado(ref menorDeTodos, ref antesDoMenor);
+//            ProcurarMenorDado( menorDeTodos,  antesDoMenor);
 //
 //            NoLista<Dado> novoNo = menorDeTodos;
-//            this.RemoverNo(ref menorDeTodos, ref antesDoMenor);
+//            this.RemoverNo( menorDeTodos,  antesDoMenor);
 //
 //            ordenada.InserirAposFim(novoNo);
 //
@@ -319,7 +319,7 @@
 //// exercicio 3
 //
 //    public void CasamentoCom(ListaSimples<Dado> outra,
-//                             ref ListaSimples<Dado>nova) {
+//                              ListaSimples<Dado>nova) {
 //        nova = new ListaSimples<Dado>();
 //        NoLista<Dado> a = null,
 //                b = null;
@@ -345,13 +345,13 @@
 //        }
 //        if (!this.EstaVazia())  // não acabou a lista 1
 //        {
-//            nova.ultimo.Prox = this.primeiro;
+//            nova.ultimo.prox = this.primeiro;
 //            nova.ultimo = this.ultimo;
 //            nova.quantosNos += this.quantosNos;
 //        }
 //
 //        if (!outra.EstaVazia()) {
-//            nova.ultimo.Prox = outra.primeiro;
+//            nova.ultimo.prox = outra.primeiro;
 //            nova.ultimo = outra.ultimo;
 //            nova.quantosNos += outra.quantosNos;
 //        }
@@ -391,6 +391,7 @@
 //                var dado = new Dado(); //cria obj do tipo Dado
 //
 //                dado.LerRegistro(arquivo);  //le o dado
+//
 //
 //                InserirEmOrdem(dado);  //inclui o dado
 //            }

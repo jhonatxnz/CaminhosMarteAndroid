@@ -1,9 +1,12 @@
 //package com.example.caminhosmarte;
 //
 //import android.widget.ImageView;
-//
+//import java.io.FileNotFoundException;
+//import java.io.FileReader;
+//import java.io.IOException;
+//import org.json.simple.JSONObject;
+//import org.json.simple.parser.JSONParser;
 //import java.util.ArrayDeque;
-//import java.util.Queue;
 //
 //public class ArvoreDeBusca<Dado extends Comparable<NoArvore<Dado>>>// indica que a classe específica terá um construtor vazio
 //{
@@ -288,32 +291,32 @@
 //        return EscreverAntecessores(raiz, procurado);
 //    }
 //
-//    public void DesenharArvore(boolean primeiraVez, NoArvore<Cidade> raiz,
-//                               int x, int y, double angulo, double incremento,
-//                               double comprimento, Graphics g) {
-//        int xf, yf;
-//        if (raiz != null) {
-//            Pen caneta = new Pen(Color.Red);
-//            xf = (int) Math.Round(x + Math.Cos(angulo) * comprimento);
-//            yf = (int) Math.Round(y + Math.Sin(angulo) * comprimento);
-//
-//            if (primeiraVez)
-//                yf = 25;
-//
-//            g.DrawLine(caneta, x, y, xf, yf);
-//            Thread.Sleep(200);
-//            DesenharArvore(false, raiz.esq, xf, yf, Math.PI / 2 + incremento,
-//                    incremento * 0.60, comprimento * 0.8, g);
-//            DesenharArvore(false, raiz.dir, xf, yf, Math.PI / 2 - incremento,
-//                    incremento * 0.6, comprimento * 0.8, g);
-//            Thread.Sleep(100);
-//            SolidBrush preenchimento = new SolidBrush(Color.MediumAquamarine);
-//            g.FillEllipse(preenchimento, xf - 25, yf - 15, 42, 30);
-//            g.DrawString(Convert.ToString(raiz.info.Nome.ToString()),
-//                    new Font("Comic Sans", 10),
-//                    new SolidBrush(Color.Black), xf - 23, yf - 7);
-//        }
-//    }
+////    public void DesenharArvore(boolean primeiraVez, NoArvore<Cidade> raiz,
+////                               int x, int y, double angulo, double incremento,
+////                               double comprimento, Graphics g) {
+////        int xf, yf;
+////        if (raiz != null) {
+////            Pen caneta = new Pen(Color.Red);
+////            xf = (int) Math.Round(x + Math.Cos(angulo) * comprimento);
+////            yf = (int) Math.Round(y + Math.Sin(angulo) * comprimento);
+////
+////            if (primeiraVez)
+////                yf = 25;
+////
+////            g.DrawLine(caneta, x, y, xf, yf);
+////            Thread.Sleep(200);
+////            DesenharArvore(false, raiz.esq, xf, yf, Math.PI / 2 + incremento,
+////                    incremento * 0.60, comprimento * 0.8, g);
+////            DesenharArvore(false, raiz.dir, xf, yf, Math.PI / 2 - incremento,
+////                    incremento * 0.6, comprimento * 0.8, g);
+////            Thread.Sleep(100);
+////            SolidBrush preenchimento = new SolidBrush(Color.MediumAquamarine);
+////            g.FillEllipse(preenchimento, xf - 25, yf - 15, 42, 30);
+////            g.DrawString(Convert.ToString(raiz.info.Nome.ToString()),
+////                    new Font("Comic Sans", 10),
+////                    new SolidBrush(Color.Black), xf - 23, yf - 7);
+////        }
+////    }
 //
 //    public boolean Existe(Dado procurado) {
 //        antecessor = null;
@@ -352,27 +355,27 @@
 //        return ExisteRec(raiz, procurado);
 //    }
 //
-//    public void Incluir(Dado dadoLido) {
-//        Incluir(ref raiz, dadoLido);
+//    public void Incluir(Dado dadoLido)  throws Exception{
+//        Incluir( raiz, dadoLido);
 //    }
 //
-//    private void Incluir(ref NoArvore<Dado>atual, Dado dadoLido) throws Exception {
+//    private void Incluir( NoArvore<Dado>atual, Dado dadoLido) throws Exception {
 //        if (atual == null) {
 //            atual = new NoArvore<Dado>(dadoLido);
 //        } else if (dadoLido.compareTo((NoArvore<Dado>) atual.info) == 0)
 //            throw new Exception("Já existe esse registro!");
 //        else if (dadoLido.compareTo((NoArvore<Dado>) atual.info) > 0) {
 //            NoArvore<Dado> apDireito = atual.dir;
-//            Incluir(ref apDireito, dadoLido);
+//            Incluir( apDireito, dadoLido);
 //            atual.dir = apDireito;
 //        } else {
 //            NoArvore<Dado> apEsquerdo = atual.esq;
-//            Incluir(ref apEsquerdo, dadoLido);
+//            Incluir( apEsquerdo, dadoLido);
 //            atual.esq = apEsquerdo;
 //        }
 //    }
 //
-//    private void Incluir2(ref NoArvore<Dado> atual, Dado dadoLido) throws Exception {
+//    private void Incluir2( NoArvore<Dado> atual, Dado dadoLido) throws Exception {
 //        if (Existe(dadoLido))  // configura o valor do ponteiro antecessor
 //            throw new Exception("Já existe esse registro!");
 //
@@ -398,7 +401,7 @@
 //        var arquivo = new BinaryReader(origem);
 //        MessageBox.Show("Tamanho do arquivo =" + origem.Length + "\n\nTamanho do registro = " + dado.TamanhoRegistro);
 //        int posicaoFinal = (int) origem.Length / dado.TamanhoRegistro - 1;
-//        Particionar(0, posicaoFinal, ref raiz);
+//        Particionar(0, posicaoFinal,  raiz);
 //        origem.Close();
 //
 //        void Particionar ( long inicio, long fim, ref NoArvore<Dado> atual)
@@ -493,22 +496,21 @@
 //    }
 //
 //    public boolean Excluir(Dado procurado) {
-//        return Excluir(ref raiz);
+//        return Excluir( raiz);
 //
-//
-//        boolean Excluir (ref NoArvore<Dado> atual)
+//         boolean Excluir ( NoArvore<Dado> atual)
 //        {
 //            NoArvore<Dado> atualAnt;
 //            if (atual == null)
 //                return false;
 //            else if (atual.info.compareTo((NoArvore<Dado>) procurado) > 0) {
 //                NoArvore<Dado> temp = atual.esq;
-//                boolean result = Excluir(ref temp);
+//                boolean result = Excluir( (Dado) temp);
 //                atual.esq = temp;
 //                return result;
 //            } else if (atual.info.compareTo((NoArvore<Dado>)procurado) < 0) {
 //                NoArvore<Dado> temp = atual.dir;
-//                boolean result = Excluir(ref temp);
+//                boolean result = Excluir((Dado) temp);
 //                atual.esq = temp;
 //                return result;
 //            } else {
@@ -519,29 +521,26 @@
 //                    atual = atual.dir;
 //                else {   // pai de 2 filhos
 //                    NoArvore<Dado> temp = atual.esq;
-//                    Rearranjar(ref temp, ref atualAnt);
+//                    Rearranjar( temp,  atualAnt);
 //                    atual.esq = temp;
 //                    atualAnt = null;  // libera o nó excluído
 //                }
 //                return true;
 //            }
 //        }
-//
-//        void Rearranjar (ref NoArvore<Dado> aux, ref NoArvore<Dado> atualAnt)
-//        {
-//            if (aux.dir != null) {
-//                NoArvore<Dado> temp = aux.dir;
-//                Rearranjar(ref temp, ref atualAnt);  // Procura Maior
-//                aux.dir = temp;
-//            } else {                           // Guarda os dados do nó a excluir
-//                atualAnt.info = aux.info;   // troca conteúdo!
-//                atualAnt = aux;             // funciona com a passagem por referência
-//                aux = aux.esq;
-//            }
-//        }
-//
 //    }
-//
+//    void Rearranjar ( NoArvore<Dado> aux,  NoArvore<Dado> atualAnt)
+//    {
+//        if (aux.dir != null) {
+//            NoArvore<Dado> temp = aux.dir;
+//            Rearranjar( temp,  atualAnt);  // Procura Maior
+//            aux.dir = temp;
+//        } else {                           // Guarda os dados do nó a excluir
+//            atualAnt.info = aux.info;   // troca conteúdo!
+//            atualAnt = aux;             // funciona com a passagem por referência
+//            aux = aux.esq;
+//        }
+//    }
 //    public boolean ApagarNo(Dado registroARemover) {
 //        atual = raiz;
 //        antecessor = null;
@@ -621,19 +620,19 @@
 //        return sucessor;
 //    }
 //
-//    public int alturaArvore(NoArvore<Dado> atual, ref boolean balanceada) {
+//    public int alturaArvore(NoArvore<Dado> atual,  boolean balanceada) {
 //        int alturaDireita, alturaEsquerda, result;
 //        if (atual != null && balanceada) {
-//            alturaEsquerda = 1 + alturaArvore(atual.Esq, ref balanceada);
-//            alturaDireita = 1 + alturaArvore(atual.Dir, ref balanceada);
-//            result = Math.Max(alturaEsquerda, alturaDireita);
+//            alturaEsquerda = 1 + alturaArvore(atual.esq,  balanceada);
+//            alturaDireita = 1 + alturaArvore(atual.dir,  balanceada);
+//            result = Math.max(alturaEsquerda, alturaDireita);
 //
 //            //if (alturaDireita > alturaEsquerda)
 //            //    result = alturaDireita;
 //            //else
 //            //  result = alturaEsquerda;
 //
-//            if (Math.Abs(alturaDireita - alturaEsquerda) > 1)
+//            if (Math.abs(alturaDireita - alturaEsquerda) > 1)
 //                balanceada = false;
 //        } else
 //            result = 0;
@@ -657,21 +656,21 @@
 //        else {
 //            if (item.compareTo((NoArvore<Dado>)noAtual.info) < 0) {
 //                noAtual.esq = InserirBalanceado(item, noAtual.esq);
-//                if (Math.Abs(getAltura(noAtual.esq) - getAltura(noAtual.dir)) == 2) // getAltura testa nulo
+//                if (Math.abs(getAltura(noAtual.esq) - getAltura(noAtual.dir)) == 2) // getAltura testa nulo
 //                    if (item.compareTo((NoArvore<Dado>)noAtual.esq.info) < 0)
 //                        noAtual = RotacaoSimplesComFilhoEsquerdo(noAtual);
 //                    else
 //                        noAtual = RotacaoDuplaComFilhoEsquerdo(noAtual);
 //            } else if (item.compareTo((NoArvore<Dado>)noAtual.info) > 0) {
 //                noAtual.dir = InserirBalanceado(item, noAtual.dir);
-//                if (Math.Abs(getAltura(noAtual.dir) - getAltura(noAtual.esq)) == 2) // getAltura testa nulo
+//                if (Math.abs(getAltura(noAtual.dir) - getAltura(noAtual.esq)) == 2) // getAltura testa nulo
 //                    if (item.compareTo((NoArvore<Dado>)noAtual.dir.info) > 0)
 //                        noAtual = RotacaoSimplesComFilhoDireito(noAtual);
 //                    else
 //                        noAtual = RotacaoDuplaComFilhoDireito(noAtual);
 //            }
 //            //else ; - não faz nada, valor duplicado
-//            noAtual.altura = Math.Max(getAltura(noAtual.esq), getAltura(noAtual.dir)) + 1;
+//            noAtual.altura = Math.max(getAltura(noAtual.esq), getAltura(noAtual.dir)) + 1;
 //        }
 //        return noAtual;
 //    }
@@ -680,8 +679,8 @@
 //        NoArvore<Dado> temp = no.esq;
 //        no.esq = temp.dir;
 //        temp.dir = no;
-//        no.altura = Math.Max(getAltura(no.esq), getAltura(no.dir)) + 1;
-//        temp.altura = Math.Max(getAltura(temp.esq), getAltura(no)) + 1;
+//        no.altura = Math.max(getAltura(no.esq), getAltura(no.dir)) + 1;
+//        temp.altura = Math.max(getAltura(temp.esq), getAltura(no)) + 1;
 //        return temp;
 //    }
 //
@@ -689,8 +688,8 @@
 //        NoArvore<Dado> temp = no.dir;
 //        no.dir = temp.esq;
 //        temp.esq = no;
-//        no.altura = Math.Max(getAltura(no.esq), getAltura(no.Dir)) + 1;
-//        temp.altura = Math.Max(getAltura(temp.dir), getAltura(no)) + 1;
+//        no.altura = Math.max(getAltura(no.esq), getAltura(no.dir)) + 1;
+//        temp.altura = Math.max(getAltura(temp.dir), getAltura(no)) + 1;
 //        return temp;
 //    }
 //
@@ -705,23 +704,52 @@
 //    }
 //
 //    //Método para escrever nome das cidades no mapa
-//    public void DesenharNoMapa(NoArvore<Cidade> noAtual, Graphics g, PictureBox pb) {
-//        if (noAtual != null) {
-//            int x = (int) (noAtual.info.X * pb.Width); //multiplica o valor de X pela largura do pictureBox
-//            int y = (int) (noAtual.info.Y * pb.Height);//multiplica o valor de Y pela altura do pictureBox
-//            //pinta bolinha
-//            g.FillEllipse(new SolidBrush(Color.Black), new Rectangle(x, y, 10, 10));
-//            //escreve nome
-//            g.DrawString(noAtual.info.Nome, new Font("Courier New", 9, FontStyle.Bold), Brushes.Black, x, y + 10);
-//
-//
-//            DesenharNoMapa(noAtual.esq, g, pb); //Visita esq
-//            DesenharNoMapa(noAtual.dir, g, pb); //Visita dir
-//
-//            //DesenharArvore(false, raiz.Esq, xf, yf, Math.PI / 2 + incremento,
-//            //                       incremento * 0.60, comprimento * 0.8, g);
-//            //DesenharArvore(false, raiz.Dir, xf, yf, Math.PI / 2 - incremento,
-//            //                        incremento * 0.6, comprimento * 0.8, g);
-//        }
-//    }
+////    public void DesenharNoMapa(NoArvore<Cidade> noAtual, Graphics g, PictureBox pb) {
+////        if (noAtual != null) {
+////            int x = (int) (noAtual.info.X * pb.Width); //multiplica o valor de X pela largura do pictureBox
+////            int y = (int) (noAtual.info.Y * pb.Height);//multiplica o valor de Y pela altura do pictureBox
+////            //pinta bolinha
+////            g.FillEllipse(new SolidBrush(Color.Black), new Rectangle(x, y, 10, 10));
+////            //escreve nome
+////            g.DrawString(noAtual.info.Nome, new Font("Courier New", 9, FontStyle.Bold), Brushes.Black, x, y + 10);
+////
+////
+////            DesenharNoMapa(noAtual.esq, g, pb); //Visita esq
+////            DesenharNoMapa(noAtual.dir, g, pb); //Visita dir
+////
+////            //DesenharArvore(false, raiz.Esq, xf, yf, Math.PI / 2 + incremento,
+////            //                       incremento * 0.60, comprimento * 0.8, g);
+////            //DesenharArvore(false, raiz.Dir, xf, yf, Math.PI / 2 - incremento,
+////            //                        incremento * 0.6, comprimento * 0.8, g);
+////        }
+////    }
+////    JSONObject jsonObject;
+////    JSONParser parser = new JSONParser();
+////
+////    public void lerEmJason() {
+////        try {
+////            //Salva no objeto JSONObject o que o parse tratou do arquivo
+////            jsonObject = (JSONObject) parser.parse(new FileReader("saida.json"));
+////
+////            //Salva nas variaveis os dados retirados do arquivo
+////            nome = (String) jsonObject.get("nome");
+////            sobrenome = (String) jsonObject.get("sobrenome");
+////            estado = (String) jsonObject.get("estado");
+////            pais = (String) jsonObject.get("pais");
+////
+////            System.out.printf(
+////                    "Nome: %s\nSobrenome: %s\nEstado: %s\nPais: %s\n",
+////                    nome, sobrenome, estado, pais);
+////        }
+////        //Trata as exceptions que podem ser lançadas no decorrer do processo
+////        catch (FileNotFoundException e) {
+////            e.printStackTrace();
+////        } catch (IOException e) {
+////            e.printStackTrace();
+////        } catch (Exception e) {
+////            // TODO Auto-generated catch block
+////            e.printStackTrace();
+////        }
+////    }
+////
 //}

@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">CaminhosMarte</string>
 
-    <string-array name="spiOrig">
+    <string-array name="spiOrig"> //tirar dps
         <item>Acheron        </item>
         <item>Arena          </item>
         <item>Arrakeen       </item>
