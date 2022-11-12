@@ -15,26 +15,22 @@
         android:text="De:"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.016"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.04" />
+        app:layout_constraintVertical_bias="0.061" />
 
-    <EditText
-        android:layout_width="124dp"
-        android:layout_height="21dp"
-        android:gravity="top|start"
-        android:inputType="textMultiLine"
-        android:lines="8"
-        android:maxLines="10"
-        android:minLines="6"
-        android:scrollbars="vertical"
+    <Spinner
+        android:id="@+id/spiOrig"
+        android:layout_width="118dp"
+        android:layout_height="30dp"
+        android:entries="@array/spiOrig"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.075"
+        app:layout_constraintHorizontal_bias="0.054"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.035" />
+        app:layout_constraintVertical_bias="0.041" />
 
     <TextView
         android:id="@+id/textView2"
@@ -43,26 +39,23 @@
         android:text="Para:"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.015"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.112" />
+        app:layout_constraintVertical_bias="0.14" />
 
-    <EditText
-        android:layout_width="124dp"
-        android:layout_height="21dp"
-        android:gravity="top|start"
-        android:inputType="textMultiLine"
-        android:lines="8"
-        android:maxLines="10"
-        android:minLines="6"
-        android:scrollbars="vertical"
+    <Spinner
+        android:id="@+id/spiDest"
+        android:layout_width="121dp"
+        android:layout_height="31dp"
+        android:entries="@array/spiOrig"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.075"
+        app:layout_constraintHorizontal_bias="0.054"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.112" />
+        app:layout_constraintVertical_bias="0.144" />
+
 
     <Button
         android:id="@+id/btnRecursivo"
@@ -74,8 +67,7 @@
         app:layout_constraintHorizontal_bias="0.018"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.225" />
-
+        app:layout_constraintVertical_bias="0.28" />
 
     <Button
         android:id="@+id/btnDjkistra"
@@ -87,10 +79,10 @@
         app:layout_constraintHorizontal_bias="0.018"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.344" />
+        app:layout_constraintVertical_bias="0.376" />
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/imgMapa"
         android:layout_width="562dp"
         android:layout_height="371dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -100,5 +92,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.6"
         app:srcCompat="@drawable/mars_political_map_by_axiaterraartunion_d4vfxdf" />
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -11,9 +11,9 @@ public class Caminho implements Comparable<Caminho> {
     int distancia, tempo, custo;
 
 
-    final int tamanhoRegistro =
-            tamCidadeOrigem +  // cidadeOrigem
-                    tamCidadeDestino; //cidadeOrigem
+//    final int tamanhoRegistro =
+//            tamCidadeOrigem +  // cidadeOrigem
+//                    tamCidadeDestino; //cidadeOrigem
 //        sizeof(int) +    // distancia
 //        sizeof(int) +    // tempo
 //        sizeof(int);     // custo
@@ -76,7 +76,7 @@ public class Caminho implements Comparable<Caminho> {
     }
 
 
-    public int CompareTo(Caminho outroCam) {
+    public int compareTo(Caminho outroCam) {
         String iguiOri = "";
 
 
@@ -88,8 +88,7 @@ public class Caminho implements Comparable<Caminho> {
         return iguiOri.toUpperCase().compareTo(iguiDes.toUpperCase());
     }
 
-    @Override
-    public int compareTo(Caminho caminho) {
+    public int CompareTo(Caminho caminho) {
         return 0;
     }
 }
