@@ -5,28 +5,11 @@
 //    char tipoGrafo;
 //    int qtasCidades;
 //    int [][]matriz;
-//    public GrafoBackTracking(String nomeArquivo, ListaSimples<Ligacao> lig)
+//    public GrafoBackTracking(String nomeArquivo, ListaSimples<Ligacao> lig,int qtdCidades)
 //    {
-//        //metodo que retorna quantas linhas o arquivo tem, equivalente a quantidade de cidades//STACKOVERFLOW
-//        int LeLinhas()
-//        {
-//            TextReader Leitor = new StreamReader(nomeArquivo, true);//Inicializa o Leitor
-//            int Linhas = 0;
-//            while (Leitor.Peek() != -1)
-//            {//Enquanto o arquivo não acabar, o Peek não retorna -1 sendo adequando para o loop while...
-//                Linhas++;//Incrementa 1 na contagem
-//                Leitor.ReadLine();//Avança uma linha no arquivo
-//            }
-//            Leitor.Close(); //Fecha o Leitor, dando acesso ao arquivo para outros programas....
-//            return Linhas;
-//        }
-//
-//
-//        qtasCidades = LeLinhas();
-//
+//        qtdCidades = qtdCidades;
 //        //monta matriz com qtasCidades por qtasCidades
 //        matriz = new int[qtasCidades][qtasCidades];
-//
 //
 //        //posiciona no primeiro
 //        lig.PosicionarNoPrimeiro();
@@ -183,7 +166,7 @@
 //            cidades.AvancarPosicao();
 //        }
 //        //retorna cidade
-//        return default(Cidade);
+//        return cidades.DadoAtual();
 //    }
 //
 //}

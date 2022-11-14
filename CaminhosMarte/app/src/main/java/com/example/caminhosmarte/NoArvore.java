@@ -1,6 +1,6 @@
 package com.example.caminhosmarte;
 
-public class NoArvore<Dado extends Comparable<NoArvore<Dado>>> {
+public class NoArvore<Dado extends Comparable<Dado>> {
     Dado info;
     NoArvore<Dado> esq;
     NoArvore<Dado> dir;
