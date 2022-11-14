@@ -1,0 +1,198 @@
+[
+  {
+    "origem": "Acheron",
+    "destino": "Echus Overlook",
+    "distancia": 2300,
+    "tempo": 19,
+    "custo": 100
+  },
+  {
+    "origem": "Arrakeen",
+    "destino": "Gondor",
+    "distancia": 3500,
+    "tempo": 17,
+    "custo": 100
+  },
+  {
+    "origem": "Bradbury",
+    "destino": "Odessa",
+    "distancia": 4800,
+    "tempo": 27,
+    "custo": 160
+  },
+  {
+    "origem": "Bradbury",
+    "destino": "Underhill",
+    "distancia": 3000,
+    "tempo": 18,
+    "custo": 110
+  },
+  {
+    "origem": "Burroughs",
+    "destino": "Arena",
+    "distancia": 1000,
+    "tempo": 8,
+    "custo": 60
+  },
+  {
+    "origem": "Burroughs",
+    "destino": "Lowell",
+    "distancia": 3980,
+    "tempo": 20,
+    "custo": 120
+  },
+  {
+    "origem": "Cairo",
+    "destino": "Senzeni Na",
+    "distancia": 2000,
+    "tempo": 13,
+    "custo": 80
+  },
+  {
+    "origem": "Cairo",
+    "destino": "Underhill",
+    "distancia": 4000,
+    "tempo": 20,
+    "custo": 120
+  },
+  {
+    "origem": "Dumont",
+    "destino": "Burroughs",
+    "distancia": 3800,
+    "tempo": 18,
+    "custo": 95
+  },
+  {
+    "origem": "Echus Overlook",
+    "destino": "Cairo",
+    "distancia": 1900,
+    "tempo": 15,
+    "custo": 90
+  },
+  {
+    "origem": "Echus Overlook",
+    "destino": "Sheffield",
+    "distancia": 1700,
+    "tempo": 13,
+    "custo": 80
+  },
+  {
+    "origem": "Gondor",
+    "destino": "Lowell",
+    "distancia": 2000,
+    "tempo": 16,
+    "custo": 80
+  },
+  {
+    "origem": "Gondor",
+    "destino": "Moria",
+    "distancia": 1200,
+    "tempo": 10,
+    "custo": 60
+  },
+  {
+    "origem": "Nicosia",
+    "destino": "Arrakeen",
+    "distancia": 2200,
+    "tempo": 14,
+    "custo": 75
+  },
+  {
+    "origem": "Odessa",
+    "destino": "Bakhuysen",
+    "distancia": 1400,
+    "tempo": 11,
+    "custo": 65
+  },
+  {
+    "origem": "Odessa",
+    "destino": "Esperanca",
+    "distancia": 4030,
+    "tempo": 21,
+    "custo": 100
+  },
+  {
+    "origem": "Odessa",
+    "destino": "Lakefront",
+    "distancia": 1010,
+    "tempo": 7,
+    "custo": 50
+  },
+  {
+    "origem": "Odessa",
+    "destino": "Perseveranca",
+    "distancia": 1500,
+    "tempo": 12,
+    "custo": 75
+  },
+  {
+    "origem": "Odessa",
+    "destino": "Temperanca",
+    "distancia": 2350,
+    "tempo": 14,
+    "custo": 90
+  },
+  {
+    "origem": "Rowan",
+    "destino": "Lakefront",
+    "distancia": 2100,
+    "tempo": 17,
+    "custo": 95
+  },
+  {
+    "origem": "Rowan",
+    "destino": "Odessa",
+    "distancia": 1100,
+    "tempo": 9,
+    "custo": 60
+  },
+  {
+    "origem": "Senzeni Na",
+    "destino": "Gondor",
+    "distancia": 5500,
+    "tempo": 30,
+    "custo": 200
+  },
+  {
+    "origem": "Sheffield",
+    "destino": "Cairo",
+    "distancia": 1100,
+    "tempo": 10,
+    "custo": 70
+  },
+  {
+    "origem": "Sheffield",
+    "destino": "Nicosia",
+    "distancia": 300,
+    "tempo": 2,
+    "custo": 30
+  },
+  {
+    "origem": "Sheffield",
+    "destino": "Tharsis",
+    "distancia": 400,
+    "tempo": 5,
+    "custo": 100
+  },
+  {
+    "origem": "Temperanca",
+    "destino": "Gondor",
+    "distancia": 3900,
+    "tempo": 20,
+    "custo": 110
+  },
+  {
+    "origem": "Underhill",
+    "destino": "Dumont",
+    "distancia": 4050,
+    "tempo": 20,
+    "custo": 110
+  },
+  {
+    "origem": "Underhill",
+    "destino": "Rowan",
+    "distancia": 4140,
+    "tempo": 21,
+    "custo": 130
+  }
+]

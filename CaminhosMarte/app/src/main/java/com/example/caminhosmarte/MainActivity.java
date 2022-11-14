@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
@@ -30,10 +31,10 @@ public class MainActivity extends AppCompatActivity {
     GridView dgvCaminhos;
     //Classes globais
     ArvoreDeBusca<Cidade> cidades = new ArvoreDeBusca<Cidade>();
-    ArvoreDeBusca<Caminho> caminhos = new ArvoreDeBusca<Caminho>();
-//    ListaSimples<Cidade> cidades = new ListaSimples<Cidade>();
-//    ListaSimples<Ligacao> caminhos = new ListaSimples<Ligacao>();
-//    GrafoBackTracking oGrafoRec;
+    ArvoreDeBusca<Caminho> arvCaminhos = new ArvoreDeBusca<Caminho>();
+    ListaSimples<Cidade> listaCidades = new ListaSimples<Cidade>();
+    ListaSimples<Ligacao> listacaminhos = new ListaSimples<Ligacao>();
+    GrafoBackTracking oGrafoRec;
 //    Grafo Grafo;
 
 
@@ -53,16 +54,27 @@ public class MainActivity extends AppCompatActivity {
 
         //https://www.bezkoder.com/java-android-read-json-file-assets-gson/
         //Ler do arquivo json
+        String [] spiCidades;
+        spiCidades = new String[23];
+
         String jsonFileString = Utils.getJsonFromAssets(getApplicationContext(), "cidades.json");
         Log.i("data", jsonFileString);
 
         Gson gson = new Gson();
         Type listUserType = new TypeToken<List<Cidade>>() { }.getType();
 
-        List<Cidade> users = gson.fromJson(jsonFileString, listUserType);
-        for (int i = 0; i < users.size(); i++) {
-            Log.i("data", "> Item " + i + "\n" + users.get(i));
+        List<Cidade> citys = gson.fromJson(jsonFileString, listUserType);
+        for (int i = 0; i < citys.size(); i++) {
+            Log.i("data", "> Item " + i + "\n" + citys.get(i));
+            cidades.InserirBalanceado(citys.get(i));
+            spiCidades[i] = citys.get(i).getNome();
         }
+        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, spiCidades);
+        spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spiOrig.setAdapter(spinnerAdapter);
+        spiDest.setAdapter(spinnerAdapter);
+
+        oGrafoRec = new GrafoBackTracking(listacaminhos, 23);
 
 
         //Botão que trata de achar caminhos de maneira recursiva
