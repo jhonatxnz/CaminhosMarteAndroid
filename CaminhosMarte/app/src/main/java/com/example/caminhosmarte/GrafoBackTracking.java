@@ -60,93 +60,93 @@ public class GrafoBackTracking {
 //        dgv[coluna, linha].Value = matriz[linha, coluna];
 //    }
 
-    public PilhaVetor<Movimento> BuscarCaminho(int origem, int destino,
-                                               DataGridView dgvGrafo,
-                                               DataGridView dgvPilha)
-
-    {
-        int cidadeAtual, saidaAtual;
-        bool achouCaminho = false,
-                naoTemSaida = false;
-        bool[] passou = new bool[qtasCidades];
-        // inicia os valores de “passou” pois ainda não foi em nenhuma cidade
-        for (int indice = 0; indice < qtasCidades; indice++)
-            passou[indice] = false;
-        cidadeAtual = origem;
-        saidaAtual = 0;
-
-        var pilha = new PilhaVetor<Movimento>(qtasCidades);
-        var caminhos = new PilhaVetor<Movimento>(qtasCidades);
-
-        while (!achouCaminho && !naoTemSaida)//tirar !achouCaminho // desempilhar e tacar false na cidade
-        {
-            naoTemSaida = (cidadeAtual == origem && saidaAtual == qtasCidades && pilha.EstaVazia);
-
-            if (!naoTemSaida)
-            {
-                while ((saidaAtual < qtasCidades) && !achouCaminho)
-                {
-                    // se não há saída pela cidade testada, verifica a próxima
-
-                    if (matriz[cidadeAtual, saidaAtual] == 0)
-                    saidaAtual++;
-                        else
-                    // se já passou pela cidade testada, vê se a próxima cidade permite saída
-                    if (passou[saidaAtual])
-                        saidaAtual++;
-                    else
-                        // se chegou na cidade desejada, empilha o local
-                        // e termina o processo de procura de caminho
-                        if (saidaAtual == destino)
-                        {
-                            Movimento movim = new Movimento(cidadeAtual, saidaAtual);
-                            pilha.Empilhar(movim);
-                            achouCaminho = true;
-                        }
-                        else
-                        {
-                            Movimento movim = new Movimento(cidadeAtual, saidaAtual);
-                            pilha.Empilhar(movim);
-                            passou[cidadeAtual] = true;
-                            cidadeAtual = saidaAtual; // muda para a nova cidade
-                            saidaAtual = 0; // reinicia busca de saídas da nova
-                            // cidade a partir da primeira cidade
-
-                        }
-                }
-            } /// if ! naoTemSaida
-            if (!achouCaminho)
-                if (!pilha.EstaVazia)
-                {
-                    var movim = pilha.Desempilhar();
-                    passou[cidadeAtual] = false;
-
-                    saidaAtual = movim.Destino;
-                    cidadeAtual = movim.Origem;
-                    saidaAtual++;
-                }
-        }
-
-
-        if (achouCaminho)
-        { // desempilha a configuração atual da pilha
-            // para a pilha da lista de parâmetros
-            //não deu certo
-            while (!pilha.EstaVazia) {
-                Movimento novoCaminho = pilha.Desempilhar();
-                caminhos.Empilhar(novoCaminho);
-            }
-
-            achouCaminho = false;
-            //coloca passou false nas cidades
-            for (int i = 0; i < qtasCidades; i++)
-                passou[i] = false;
-            //avanca para a prox saida p continuar procurando
-            saidaAtual++;
-        }
-        //retona caminhos
-        return caminhos;
-    }
+//    public PilhaVetor<Movimento> BuscarCaminho(int origem, int destino,
+//                                               DataGridView dgvGrafo,
+//                                               DataGridView dgvPilha)
+//
+//    {
+//        int cidadeAtual, saidaAtual;
+//        bool achouCaminho = false,
+//                naoTemSaida = false;
+//        bool[] passou = new bool[qtasCidades];
+//        // inicia os valores de “passou” pois ainda não foi em nenhuma cidade
+//        for (int indice = 0; indice < qtasCidades; indice++)
+//            passou[indice] = false;
+//        cidadeAtual = origem;
+//        saidaAtual = 0;
+//
+//        var pilha = new PilhaVetor<Movimento>(qtasCidades);
+//        var caminhos = new PilhaVetor<Movimento>(qtasCidades);
+//
+//        while (!achouCaminho && !naoTemSaida)//tirar !achouCaminho // desempilhar e tacar false na cidade
+//        {
+//            naoTemSaida = (cidadeAtual == origem && saidaAtual == qtasCidades && pilha.EstaVazia);
+//
+//            if (!naoTemSaida)
+//            {
+//                while ((saidaAtual < qtasCidades) && !achouCaminho)
+//                {
+//                    // se não há saída pela cidade testada, verifica a próxima
+//
+//                    if (matriz[cidadeAtual, saidaAtual] == 0)
+//                    saidaAtual++;
+//                        else
+//                    // se já passou pela cidade testada, vê se a próxima cidade permite saída
+//                    if (passou[saidaAtual])
+//                        saidaAtual++;
+//                    else
+//                        // se chegou na cidade desejada, empilha o local
+//                        // e termina o processo de procura de caminho
+//                        if (saidaAtual == destino)
+//                        {
+//                            Movimento movim = new Movimento(cidadeAtual, saidaAtual);
+//                            pilha.Empilhar(movim);
+//                            achouCaminho = true;
+//                        }
+//                        else
+//                        {
+//                            Movimento movim = new Movimento(cidadeAtual, saidaAtual);
+//                            pilha.Empilhar(movim);
+//                            passou[cidadeAtual] = true;
+//                            cidadeAtual = saidaAtual; // muda para a nova cidade
+//                            saidaAtual = 0; // reinicia busca de saídas da nova
+//                            // cidade a partir da primeira cidade
+//
+//                        }
+//                }
+//            } /// if ! naoTemSaida
+//            if (!achouCaminho)
+//                if (!pilha.EstaVazia)
+//                {
+//                    var movim = pilha.Desempilhar();
+//                    passou[cidadeAtual] = false;
+//
+//                    saidaAtual = movim.Destino;
+//                    cidadeAtual = movim.Origem;
+//                    saidaAtual++;
+//                }
+//        }
+//
+//
+//        if (achouCaminho)
+//        { // desempilha a configuração atual da pilha
+//            // para a pilha da lista de parâmetros
+//            //não deu certo
+//            while (!pilha.EstaVazia) {
+//                Movimento novoCaminho = pilha.Desempilhar();
+//                caminhos.Empilhar(novoCaminho);
+//            }
+//
+//            achouCaminho = false;
+//            //coloca passou false nas cidades
+//            for (int i = 0; i < qtasCidades; i++)
+//                passou[i] = false;
+//            //avanca para a prox saida p continuar procurando
+//            saidaAtual++;
+//        }
+//        //retona caminhos
+//        return caminhos;
+//    }
     //metodo que pga cidade por id
     public Cidade CidadeId(String nome, ListaSimples<Cidade> cidades)
     {

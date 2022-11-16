@@ -30,10 +30,8 @@ public class MainActivity extends AppCompatActivity {
     Button btnRecursivo, btnDijkstra;
     GridView dgvCaminhos;
     //Classes globais
-    ArvoreDeBusca<Cidade> cidades = new ArvoreDeBusca<Cidade>();
-    ArvoreDeBusca<Caminho> arvCaminhos = new ArvoreDeBusca<Caminho>();
     ListaSimples<Cidade> listaCidades = new ListaSimples<Cidade>();
-    ListaSimples<Ligacao> listacaminhos = new ListaSimples<Ligacao>();
+    ListaSimples<Ligacao> listaCaminhos = new ListaSimples<Ligacao>();
     GrafoBackTracking oGrafoRec;
 //    Grafo Grafo;
 
@@ -66,7 +64,8 @@ public class MainActivity extends AppCompatActivity {
         List<Cidade> citys = gson.fromJson(jsonFileString, listUserType);
         for (int i = 0; i < citys.size(); i++) {
             Log.i("data", "> Item " + i + "\n" + citys.get(i));
-            cidades.InserirBalanceado(citys.get(i));
+            listaCidades.InserirAposFim(new NoLista<>(citys.get(i)));
+
             spiCidades[i] = citys.get(i).getNome();
         }
         ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, spiCidades);
@@ -74,8 +73,18 @@ public class MainActivity extends AppCompatActivity {
         spiOrig.setAdapter(spinnerAdapter);
         spiDest.setAdapter(spinnerAdapter);
 
-        oGrafoRec = new GrafoBackTracking(listacaminhos, 23);
+        String jsonFileString2 = Utils.getJsonFromAssets(getApplicationContext(), "caminhos.json");
+        Log.i("data", jsonFileString2);
 
+        Type listUserType2 = new TypeToken<List<Ligacao>>() { }.getType();
+
+        List<Ligacao> paths = gson.fromJson(jsonFileString2, listUserType2);
+        for (int i = 0; i < citys.size(); i++) {
+            Log.i("data", "> Item " + i + "\n" + paths.get(i));
+            listaCaminhos.InserirAposFim(new NoLista<>(paths.get(i)));
+        }
+
+        oGrafoRec = new GrafoBackTracking(listaCaminhos, 23);
 
         //Botão que trata de achar caminhos de maneira recursiva
         btnRecursivo.setOnClickListener(new View.OnClickListener() {
@@ -94,7 +103,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     //desenha nome das cidades e bolinha no mapa
-    public void DesenharNoMapa(){
+    public void desenharNoMapa(){
         Bitmap bitmap = Bitmap.createBitmap(100, 100, Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(bitmap);
         Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);

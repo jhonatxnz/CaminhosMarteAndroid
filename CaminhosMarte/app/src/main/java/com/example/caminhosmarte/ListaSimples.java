@@ -427,33 +427,4 @@ public class ListaSimples<Dado extends Comparable<Dado>> {
         return quantosNos;
     }
 
-    JSONObject jsonObject;
-    JSONParser parser = new JSONParser();
-    String nomeCidade;
-    String coordenadaX;
-    String coordenadaY;
-    public void lerEmJason() {
-        try {
-            //Salva no objeto JSONObject o que o parse tratou do arquivo
-            jsonObject = (JSONObject) parser.parse(new FileReader("/storage/emulated/0/WhatsApp/Media/WhatsApp Documents/Sent/cidades.json"));
-
-            //Salva nas variaveis os dados retirados do arquivo
-            nomeCidade = (String) jsonObject.get("nomeCidade");
-            coordenadaX = (String) jsonObject.get("coordenadaX");
-            coordenadaY = (String) jsonObject.get("coordenadaY");
-
-            System.out.printf(
-                    "Nome: %s\nSobrenome: %s\nEstado: %s\nPais: \n",
-                    nomeCidade, coordenadaX, coordenadaY);
-        }
-        //Trata as exceptions que podem ser lançadas no decorrer do processo
-        catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (Exception e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-    }
 }

@@ -6,8 +6,8 @@ public class Caminho implements Comparable<Caminho> {
     public final int tamCidadeOrigem = 15;
     public final int tamCidadeDestino = 15;
 
-    private String nomeOrigem;
-    private String nomeDestino;
+    private String origem;
+    private String destino;
     int distancia, tempo, custo;
 
 
@@ -19,19 +19,19 @@ public class Caminho implements Comparable<Caminho> {
 //        sizeof(int);     // custo
 
     public String getNomeOrigem() {
-        return nomeOrigem;
+        return origem;
     }
 
-    public void setNomeOrigem(String nomeOrigem) {
-        this.nomeOrigem = nomeOrigem;
+    public void setNomeOrigem(String origem) {
+        this.origem = origem;
     }
 
     public String getNomeDestino() {
-        return nomeDestino;
+        return destino;
     }
 
     public void setNomeDestino(String nomeOrigem) {
-        this.nomeDestino = nomeDestino;
+        this.destino = destino;
     }
 
     public int getDistancia() {
@@ -81,8 +81,8 @@ public class Caminho implements Comparable<Caminho> {
 
 
         String iguiDes = "";
-        iguiOri = nomeOrigem + nomeDestino;
-        iguiDes = outroCam.nomeOrigem + outroCam.nomeDestino;
+        iguiOri = origem + destino;
+        iguiDes = outroCam.origem + outroCam.destino;
 
 
         return iguiOri.toUpperCase().compareTo(iguiDes.toUpperCase());
