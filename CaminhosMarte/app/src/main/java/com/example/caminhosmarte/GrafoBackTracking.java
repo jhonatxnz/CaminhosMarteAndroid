@@ -5,24 +5,9 @@ public class GrafoBackTracking {
     char tipoGrafo;
     int qtasCidades;
     int [][]matriz;
-    public GrafoBackTracking(ListaSimples<Ligacao> lig,int qtdCidades)
-    {
-        qtdCidades = qtdCidades;
-        //monta matriz com qtasCidades por qtasCidades
-        matriz = new int[qtasCidades][qtasCidades];
+    boolean []passou;
+    boolean achou;
 
-        //posiciona no primeiro
-        lig.PosicionarNoPrimeiro();
-
-        //enquanto dado atual for diferente de nulo insere na matriz a distancia dos caminhos
-        while (lig.DadoAtual() != null)
-        {
-            matriz[Integer.parseInt(lig.DadoAtual().idCidadeOrigem)]
-                  [Integer.parseInt(lig.DadoAtual().idCidadeDestino)] = lig.DadoAtual().distancia;
-
-            lig.AvancarPosicao();
-        }
-    }
 
 
     public char getTipoGrafo(){
@@ -40,11 +25,56 @@ public class GrafoBackTracking {
     public int[][] getMatriz(){
         return  matriz;
     }
-
     public void setMatriz(int[][] matriz){
         this.matriz = matriz;
     }
 
+    public GrafoBackTracking(ListaSimples<Ligacao> lig,int qtdCidades)
+    {
+        qtdCidades = qtdCidades;
+        //monta matriz com qtasCidades por qtasCidades
+        matriz = new int[qtasCidades][qtasCidades];
+
+        //posiciona no primeiro
+        lig.PosicionarNoPrimeiro();
+
+        //enquanto dado atual for diferente de nulo insere na matriz a distancia dos caminhos
+        while (lig.DadoAtual() != null)
+        {
+            matriz[Integer.parseInt(lig.DadoAtual().idCidadeOrigem)]
+                    [Integer.parseInt(lig.DadoAtual().idCidadeDestino)] = lig.DadoAtual().distancia;
+
+            lig.AvancarPosicao();
+        }
+    }
+
+    public PilhaLista<Movimento> BuscarCaminhos(int idCidadeOrigem, int idCidadeDestino) throws Exception {
+        PilhaLista<Movimento> pilhaMovimento = new PilhaLista<Movimento>();
+        for (int i = 0; i < qtasCidades; i++)
+            if ((matriz[idCidadeOrigem][i] != null) && (!passou[i]))
+        {
+            pilhaMovimento.empilhar(new Movimento(idCidadeOrigem, i));
+            passou[i] = true;
+
+            if (i == idCidadeDestino) // se chegou ao destino
+            {
+                Caminho novoCaminho = new Caminho();
+                novoCaminho. = pilhaMovimento.Clone();
+                caminhosEncontrados.Add(novoCaminho);
+                pilhaMovimento.desempilhar(); // busca novos caminhos
+                passou[i] = false;
+            }
+            else
+                BuscarCaminhos(i, idCidadeDestino); // backtracking
+        }
+
+        if (!pilhaMovimento.estaVazia())
+        {
+            pilhaMovimento.desempilhar();
+            passou[idCidadeOrigem] = false;
+        }
+        return caminhosEncontrados;
+    }
 //    public void Exibir(DataGridView dgv)
 //    {
 //        dgv.RowCount = dgv.ColumnCount = qtasCidades;

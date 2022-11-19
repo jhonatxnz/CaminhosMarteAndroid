@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
         btnDijkstra = findViewById(R.id.btnDijkstra);
         spiOrig = findViewById(R.id.spiOrig);
         spiDest = findViewById(R.id.spiDest);
-        imgMapa = findViewById(R.id.imgMapa);
+        //imgMapa = findViewById(R.id.imgMapa);
         imgMapa2 = findViewById(R.id.imgMapa2);
         dgvCaminhos = findViewById(R.id.dgvCaminhos);
 
@@ -140,7 +140,6 @@ public class MainActivity extends AppCompatActivity {
             imgMapa2.setImageBitmap(bitmap);
             listaCidades.AvancarPosicao();
         }
-        paint.setTextSize(10);
     }
     public void desenharNoMapa2(){
         BitmapFactory.Options myOptions = new BitmapFactory.Options();
@@ -152,7 +151,7 @@ public class MainActivity extends AppCompatActivity {
         Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.mars_political_map_by_axiaterraartunion_d4vfxdf,myOptions);
         Paint paint = new Paint();
         paint.setAntiAlias(true);
-        paint.setColor(Color.BLUE);
+        paint.setColor(Color.BLACK);
         paint.setTextSize(100);
 
         Bitmap workingBitmap = Bitmap.createBitmap(bitmap);
@@ -161,9 +160,20 @@ public class MainActivity extends AppCompatActivity {
 
         Canvas canvas = new Canvas(mutableBitmap);
         canvas.drawCircle(100, 100, 25, paint);
-        canvas.drawText("cid.getNome()",100,100, paint);
-        ImageView imageView = (ImageView)findViewById(R.id.imgMapa2);
-        imageView.setAdjustViewBounds(true);
-        imageView.setImageBitmap(mutableBitmap);
+
+
+        while(listaCidades.DadoAtual() != null){
+            Cidade cid = listaCidades.DadoAtual();
+
+            float x = (float)cid.coordenadaX * 2000;
+            float y = (float)cid.coordenadaY * 2000;
+            canvas.drawCircle(x, y, 20, paint);
+            canvas.drawText(cid.getNome(),x,y, paint);
+            imgMapa2.setAdjustViewBounds(true);
+            imgMapa2.setImageBitmap(mutableBitmap);
+            listaCidades.AvancarPosicao();
+        }
+        //ImageView imageView = (ImageView)findViewById(R.id.imgMapa2);
+
     }
 }

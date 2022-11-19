@@ -1,14 +1,14 @@
 package com.example.caminhosmarte;
 
 interface IStack<Dado> {
-    int Tamanho() throws Exception;
+    int tamanho() throws Exception;
 
-    boolean EstaVazia() throws Exception;
+    boolean estaVazia() throws Exception;
 
-    void Empilhar(Dado elemento) throws Exception;
+    void empilhar(Dado elemento) throws Exception;
 
-    Dado Desempilhar() throws Exception;
+    Dado desempilhar() throws Exception;
 
-    Dado OTopo() throws Exception;
+    Dado oTopo() throws Exception;
 
 }
