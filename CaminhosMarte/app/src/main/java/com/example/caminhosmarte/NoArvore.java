@@ -1,6 +1,6 @@
 package com.example.caminhosmarte;
 
-public class NoArvore<Dado extends Comparable<Dado>> {
+public class NoArvore<Dado> implements Comparable<Dado> {
     Dado info;
     NoArvore<Dado> esq;
     NoArvore<Dado> dir;
@@ -62,12 +62,16 @@ public class NoArvore<Dado extends Comparable<Dado>> {
         this.estaMarcadoParaMorrer = estaMarcadoParaMorrer;
     }
 
-
-    public int CompareTo(NoArvore<Dado> o) {
+    public int compareTo(NoArvore<Dado> o) {
         return info.toString().compareTo(o.info.toString());
     }
 
     public boolean Equals(NoArvore<Dado> o) {
         return this.info.equals(o.info);
+    }
+
+    @Override
+    public int compareTo(Dado dado) {
+        return info.toString().compareTo(dado.toString());
     }
 }

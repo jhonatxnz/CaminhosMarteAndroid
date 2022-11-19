@@ -60,19 +60,19 @@ public class Caminho implements Comparable<Caminho> {
 
     public Caminho()  // construtor default (construtor vazio), sem parâmetros
     {
-        setNomeOrigem("");
-        setNomeDestino("");
-        setDistancia(0);
-        setTempo(0);
-        setCusto(0);
+        this.origem = "";
+        this.destino = "";
+        this.custo = 0;
+        this.tempo = 0;
+        this.distancia = 0;
     }
 
     public Caminho(String nomeOrigem, String nomeDestino, int distancia, int tempo, int custo) {
-        setNomeOrigem(nomeOrigem);
-        setNomeDestino(nomeDestino);
-        setDistancia(distancia);
-        setTempo(tempo);
-        setCusto(custo);
+        this.origem = nomeOrigem;
+        this.destino = nomeDestino;
+        this.custo = custo;
+        this.tempo = tempo;
+        this.distancia = distancia;
     }
 
 
