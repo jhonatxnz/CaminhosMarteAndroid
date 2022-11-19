@@ -73,6 +73,7 @@ public class Cidade implements Comparable<Cidade> {
     }
 
     //CompareTo de cidade por nome
+    @Override
     public int compareTo(Cidade outraCid) {
         return nomeCidade.toUpperCase().compareTo(outraCid.nomeCidade.toUpperCase());
     }

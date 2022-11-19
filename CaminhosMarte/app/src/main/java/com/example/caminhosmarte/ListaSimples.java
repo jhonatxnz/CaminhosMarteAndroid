@@ -426,5 +426,93 @@ public class ListaSimples<Dado extends Comparable<Dado>> {
     public int getTamanho(){
         return quantosNos;
     }
+    public void PosicionarEm(int posicaoDesejada)
+    {
+        PosicionarNoPrimeiro(); // usamos o método posicionar no primeiro
 
+        for (int i = 0; i < posicaoDesejada; i++) // fazemos um for, até a posição desejada
+        {
+            if (atual != null) //se atual for diferente de nulo
+            {
+                AvancarPosicao(); // usamos o método avançar posição
+            }
+        }
+    }
+    public void PosicionarNoUltimo()        // posicionar atual no último nó para ser acessado
+    {
+        if (!EstaVazia())         //se a lista no está vazia
+            atual = ultimo;     //posiciona atual no último nó
+    }
+    public boolean Existe(Dado procurado,  int ondeEsta)
+    {
+        PosicionarNoPrimeiro();
+        // Em seguida, é verificado se a lista está vazia. Caso esteja, é
+        // retornado false ao local de chamada, indicando que a chave não foi
+        // encontrada, e atual e anterior ficam valendo null
+        if (EstaVazia())
+        {
+            ondeEsta = -1; //retorna posição inexistente
+            return false;
+        }
+        // a lista não está vazia, possui nós
+        // dado procurado é menor que o primeiro dado da lista:
+        // portanto, dado procurado não existe
+        if (procurado.compareTo(primeiro.info) < 0)
+        {
+            ondeEsta = -1; //retorna posição inexistente
+            return false;
+        }
+        // dado procurado é maior que o último dado da lista:
+        // portanto, dado procurado não existe
+        if (procurado.compareTo(ultimo.info) > 0)
+        {
+            PosicionarNoUltimo();
+            ondeEsta = -1; //retorna posição inexistente
+            return false;
+        }
+        // caso não tenha sido definido que a chave está fora dos limites de
+        // chaves da lista, vamos procurar no seu interior
+        // o apontador atual indica o primeiro nó da lista e consideraremos que
+        // ainda não achou a chave procurada nem chegamos ao final da lista
+        boolean achou = false;
+        boolean fim = false;
+        ondeEsta = 0;
+        // repete os comandos abaixo enquanto não achou o RA nem chegou ao
+        // final da lista
+        while (!achou && !fim)
+            // se o apontador atual vale null, indica final da lista
+            if (atual == null)
+                fim = true;
+                // se não chegou ao final da lista, verifica o valor da chave atual
+            else
+                // verifica igualdade entre chave procurada e chave do nó atual
+
+                if (procurado.compareTo(atual.info) == 0)
+                {
+                    achou = true;
+                }
+                else
+                    // se chave atual é maior que a procurada, significa que
+                    // a chave procurada não existe na lista ordenada e, assim,
+                    // termina a pesquisa indicando que não achou. Anterior
+                    // aponta o anterior ao atual, que foi acessado por
+                    // último
+                    if (atual.info.compareTo(procurado) > 0)
+                        fim = true;
+                    else
+                    {
+                        // se não achou a chave procurada nem uma chave > que ela,
+                        // então a pesquisa continua, de maneira que o apontador
+                        // anterior deve apontar o nó atual e o apontador atual
+                        // deve seguir para o nó seguinte
+                        AvancarPosicao(); // avança posição do nó
+                        ondeEsta++;
+                    }
+        // por fim, caso a pesquisa tenha terminado, o apontador atual
+        // aponta o nó onde está a chave procurada, caso ela tenha sido
+        // encontrada, ou o nó onde ela deveria estar para manter a
+        // ordenação da lista. O apontador anterior aponta o nó anterior
+        // ao atual
+        return achou; // devolve o valor da variável achou, que indica
+    }
 }

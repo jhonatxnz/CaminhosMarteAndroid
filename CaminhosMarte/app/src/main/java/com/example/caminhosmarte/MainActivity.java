@@ -17,6 +17,7 @@ import android.graphics.Paint;
 import android.graphics.RectF;
 import android.graphics.drawable.BitmapDrawable;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -84,12 +85,32 @@ public class MainActivity extends AppCompatActivity {
             listaCaminhos.InserirAposFim(new NoLista<>(paths.get(i)));
         }
 
-        oGrafoRec = new GrafoBackTracking(listaCaminhos, 23);
+        //oGrafoRec = new GrafoBackTracking(listaCaminhos, 23);
 
         //Botão que trata de achar caminhos de maneira recursiva
         btnRecursivo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                while(listaCidades.DadoAtual() != null){
+                    System.err.println(listaCidades.DadoAtual().getNome());
+                    listaCidades.AvancarPosicao();
+                }
+
+                if(listaCidades.ExisteDado(new Cidade(spiOrig.getSelectedItem().toString()))){
+                    Toast.makeText(getApplicationContext(), listaCidades.DadoAtual().getNome(), Toast.LENGTH_SHORT).show();
+                }
+                if(listaCidades.ExisteDado(new Cidade(spiDest.getSelectedItem().toString()))){
+                    Toast.makeText(getApplicationContext(), listaCidades.DadoAtual().getNome(), Toast.LENGTH_SHORT).show();
+                }
+
+
+                if(spiOrig.getSelectedItem().toString().compareTo(spiDest.getSelectedItem().toString()) == 0){
+                    System.err.println("Erro!\nCidade de origem igual cidade de destino");
+                }
+                else{
+                    System.err.println("Partiu achar Caminho!");
+                }
 
             }
         });
@@ -97,7 +118,7 @@ public class MainActivity extends AppCompatActivity {
         btnDijkstra.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                desenharNoMapa2();
             }
         });
     }
@@ -108,9 +129,41 @@ public class MainActivity extends AppCompatActivity {
         Canvas canvas = new Canvas(bitmap);
         Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
         paint.setColor(Color.BLACK);
+
+        while(listaCidades.DadoAtual() != null){
+            Cidade cid = listaCidades.DadoAtual();
+
+            float x = (float)cid.coordenadaX * 100;
+            float y = (float)cid.coordenadaY * 100;
+            canvas.drawCircle(x, y, 1, paint);
+            //canvas.drawText(cid.getNome(),x,y, paint);
+            imgMapa2.setImageBitmap(bitmap);
+            listaCidades.AvancarPosicao();
+        }
         paint.setTextSize(10);
-        canvas.drawCircle(50, 50, 1, paint);
-        canvas.drawText("lalala",50,50, paint);
-        imgMapa2.setImageBitmap(bitmap);
+    }
+    public void desenharNoMapa2(){
+        BitmapFactory.Options myOptions = new BitmapFactory.Options();
+        myOptions.inDither = true;
+        myOptions.inScaled = false;
+        myOptions.inPreferredConfig = Bitmap.Config.ARGB_8888;// important
+        myOptions.inPurgeable = true;
+
+        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.mars_political_map_by_axiaterraartunion_d4vfxdf,myOptions);
+        Paint paint = new Paint();
+        paint.setAntiAlias(true);
+        paint.setColor(Color.BLUE);
+        paint.setTextSize(100);
+
+        Bitmap workingBitmap = Bitmap.createBitmap(bitmap);
+        Bitmap mutableBitmap = workingBitmap.copy(Bitmap.Config.ARGB_8888, true);
+
+
+        Canvas canvas = new Canvas(mutableBitmap);
+        canvas.drawCircle(100, 100, 25, paint);
+        canvas.drawText("cid.getNome()",100,100, paint);
+        ImageView imageView = (ImageView)findViewById(R.id.imgMapa2);
+        imageView.setAdjustViewBounds(true);
+        imageView.setImageBitmap(mutableBitmap);
     }
 }
