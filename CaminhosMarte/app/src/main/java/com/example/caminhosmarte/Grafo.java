@@ -33,7 +33,7 @@ public class Grafo {
         percurso = new DistOriginal[NUM_VERTICES];
     }
 
-    public String Caminho(int inicioDoPercurso, int finalDoPercurso, List<String> lista)
+    public String caminho(int inicioDoPercurso, int finalDoPercurso, List<String> lista)
     {
         for (int j = 0; j < numVerts; j++)
             vertices[j].foiVisitado = false;
@@ -303,6 +303,8 @@ public class Grafo {
             resultado = "Não há caminho";
         else
             resultado += " --> " + vertices[finalDoPercurso].rotulo;
+
+        System.err.println(resultado);
         return resultado;
     }
 }

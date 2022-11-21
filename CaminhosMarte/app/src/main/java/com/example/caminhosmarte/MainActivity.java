@@ -20,6 +20,7 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -29,12 +30,11 @@ public class MainActivity extends AppCompatActivity {
     GridView dgvCaminhos;
 
     //Classes globais
-    Cidade []asCidades = new Cidade[23];
-    Ligacao []osCaminhos  = new Ligacao[28];
+    Cidade []asCidades       = new Cidade[23];
+    Ligacao []osCaminhos     = new Ligacao[28];
     GrafoBackTracking oGrafoRec;
-    ListaSimples<Cidade> listaCidades = new ListaSimples<Cidade>();
-    ListaSimples<Ligacao> listaCaminhos = new ListaSimples<Ligacao>();
-    //Grafo Grafo;
+    Grafo oGrafoDijkstra;
+    List<String> listCidades = new ArrayList<String>();
 
 
     @Override
@@ -63,8 +63,8 @@ public class MainActivity extends AppCompatActivity {
 
         List<Cidade> citys = gson.fromJson(jsonFileString, listUserType);
         for (int i = 0; i < citys.size(); i++) {
-            listaCidades.InserirAposFim(new NoLista<>(citys.get(i)));
             asCidades[i] = citys.get(i);
+            listCidades.add(citys.get(i).nomeCidade);
             System.err.println("Cidade" +  i + ": " + asCidades[i].getNome());
             spiCidades[i] = citys.get(i).getNome();
         }
@@ -80,12 +80,13 @@ public class MainActivity extends AppCompatActivity {
         Type listUserType2 = new TypeToken<List<Ligacao>>() { }.getType();
 
         List<Ligacao> paths = gson.fromJson(jsonFileString2, listUserType2);
-        for (int i = 0; i < citys.size(); i++) {
-            listaCaminhos.InserirAposFim(new NoLista<>(paths.get(i)));
+        for (int i = 0; i < paths.size(); i++) {
             osCaminhos[i] = paths.get(i);
         }
+        //Desenha as cidades no mapa
         desenharNoMapa2();
-        //oGrafoRec = new GrafoBackTracking(osCaminhos, 23 ,asCidades);
+        //Monta a matriz de adjacencia
+        oGrafoRec = new GrafoBackTracking(osCaminhos, citys.size() ,asCidades);
 
         //Botão que trata de achar caminhos de maneira recursiva
         btnRecursivo.setOnClickListener(new View.OnClickListener() {
@@ -95,57 +96,53 @@ public class MainActivity extends AppCompatActivity {
 
                 if(spiOrig.getSelectedItem().toString().compareTo(spiDest.getSelectedItem().toString()) == 0){
                     System.err.println("Erro!\nCidade de origem igual cidade de destino");
-                }
-                else{
+                } else {
 
-                    int origem  = oGrafoRec.CidadeId(spiOrig.getSelectedItem().toString(),asCidades);
-                    int destino = oGrafoRec.CidadeId(spiDest.getSelectedItem().toString(),asCidades);
+                    int origem  = oGrafoRec.cidadeId(spiOrig.getSelectedItem().toString(),asCidades);
+                    int destino = oGrafoRec.cidadeId(spiDest.getSelectedItem().toString(),asCidades);
+                    int somaDist = 0;
 
-//                    try {
-//                        PilhaLista<Movimento> pilhaCaminho = oGrafoRec.BuscarCaminhos(origem,destino);
-//                        if (pilhaCaminho.estaVazia())
+                    try {
+//                        List<Movimento> listCaminho = oGrafoRec.Recursao(origem,destino,asCidades);
+//                        if (listCaminho.size() <= 0)
 //                        {
 //                            Toast.makeText(getApplicationContext(), "Não achou caminho!", Toast.LENGTH_LONG).show();
 //                        }
 //                        else
 //                        {
+//                            for (Movimento mov : listCaminho) {
+//                            }
+//
 //                            Toast.makeText(getApplicationContext(), "Achou caminho!", Toast.LENGTH_LONG).show();
 //
 //                        }
-//                    } catch (Exception e) {
-//                        e.printStackTrace();
-//                    }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
 
             }
         });
+        for(int i = 0;i < listCidades.size();i++){
+           System.err.println(listCidades.get(i));
+        }
         //Botão que trata de achar caminhos com algoritimo de dijkstra
         btnDijkstra.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if(spiOrig.getSelectedItem().toString().compareTo(spiDest.getSelectedItem().toString()) == 0){
+                    System.err.println("Erro!\nCidade de origem igual cidade de destino");
+                } else {
+                    int origem  = oGrafoRec.cidadeId(spiOrig.getSelectedItem().toString(),asCidades);
+                    int destino = oGrafoRec.cidadeId(spiDest.getSelectedItem().toString(),asCidades);
 
+                    oGrafoDijkstra.caminho(origem,destino,listCidades);
+                }
             }
         });
     }
 
-    //desenha nome das cidades e bolinha no mapa
-    public void desenharNoMapa(){
-        Bitmap bitmap = Bitmap.createBitmap(100, 100, Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(bitmap);
-        Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
-        paint.setColor(Color.BLACK);
 
-        while(listaCidades.DadoAtual() != null){
-            Cidade cid = listaCidades.DadoAtual();
-
-            float x = (float)cid.coordenadaX * 100;
-            float y = (float)cid.coordenadaY * 100;
-            canvas.drawCircle(x, y, 1, paint);
-            //canvas.drawText(cid.getNome(),x,y, paint);
-            imgMapa.setImageBitmap(bitmap);
-            listaCidades.AvancarPosicao();
-        }
-    }
     public void desenharNoMapa2(){
         BitmapFactory.Options myOptions = new BitmapFactory.Options();
         myOptions.inDither = true;

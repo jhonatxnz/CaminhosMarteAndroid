@@ -1,10 +1,14 @@
 package com.example.caminhosmarte;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class GrafoBackTracking {
     final int tamanhoDistancia = 4;
     char tipoGrafo;
     int qtasCidades;
     int [][]matriz;
+    Ligacao[][] matriz2;
     boolean []passou;
     boolean achou;
 
@@ -29,66 +33,24 @@ public class GrafoBackTracking {
         this.matriz = matriz;
     }
 
-    public GrafoBackTracking(Ligacao[] lig,int qtdCidades,Cidade []cidades)
+    //Método que monta a matriz de adjacências
+    public GrafoBackTracking(Ligacao[] lig,int qtdCidades,Cidade[] cidades)
     {
-
-        qtdCidades = qtdCidades;
-        //monta matriz com qtasCidades por qtasCidades
-        matriz = new int[qtasCidades][qtasCidades];
-
-        //posiciona no primeiro
-
-
-        //enquanto dado atual for diferente de nulo insere na matriz a distancia dos caminhos
+        //Cria matriz de ordem [23][23]
+        matriz = new int[qtdCidades][qtdCidades];
+        matriz2= new Ligacao[qtdCidades][qtdCidades];
+        //Percorre todos os caminhos
         for(int i =0;i < lig.length;i++){
-
-            matriz[CidadeId(lig[i].origem,cidades)][CidadeId(lig[i].destino,cidades)] = lig[i].getDistancia();
+            //Coloca na matriz a distacia entre os caminhos
+            matriz[cidadeId(lig[i].origem,cidades)][cidadeId(lig[i].destino,cidades)] = lig[i].getDistancia();
+            matriz2[cidadeId(lig[i].origem,cidades)][cidadeId(lig[i].destino,cidades)] = lig[i];
 
         }
-
-//        for(int x = 0;x < matriz.length;x++){
-//            for(int z = 0;z <matriz.length;z++){
-//                System.err.println(matriz[x][z]);
-//            }
-//            System.err.println("\n");
-//        }
-
-//        while (lig.DadoAtual() != null)
-//        {
-//            matriz[Integer.parseInt(lig.DadoAtual().idCidadeOrigem)]
-//                    [Integer.parseInt(lig.DadoAtual().idCidadeDestino)] = lig.DadoAtual().distancia;
-//
-//            lig.AvancarPosicao();
-//        }
     }
 //RECURSAO
-//    public PilhaLista<Movimento> BuscarCaminhos(int idCidadeOrigem, int idCidadeDestino) throws Exception {
-//        PilhaLista<Movimento> pilhaMovimento = new PilhaLista<Movimento>();
-//        for (int i = 0; i < qtasCidades; i++)
-//            if ((matriz[idCidadeOrigem][i] != null) && (!passou[i]))
-//        {
-//            pilhaMovimento.empilhar(new Movimento(idCidadeOrigem, i));
-//            passou[i] = true;
-//
-//            if (i == idCidadeDestino) // se chegou ao destino
-//            {
-//                Caminho novoCaminho = new Caminho();
-//                novoCaminho. = pilhaMovimento.Clone();
-//                caminhosEncontrados.Add(novoCaminho);
-//                pilhaMovimento.desempilhar(); // busca novos caminhos
-//                passou[i] = false;
-//            }
-//            else
-//                BuscarCaminhos(i, idCidadeDestino); // backtracking
-//        }
-//
-//        if (!pilhaMovimento.estaVazia())
-//        {
-//            pilhaMovimento.desempilhar();
-//            passou[idCidadeOrigem] = false;
-//        }
-//        return caminhosEncontrados;
-//    }
+    public void Recursao(){
+    }
+
 
 //    public PilhaVetor<Movimento> BuscarCaminho(int origem, int destino,
 //                                               DataGridView dgvGrafo,
@@ -178,9 +140,8 @@ public class GrafoBackTracking {
 //        return caminhos;
 //    }
     //metodo que retorna posicao da cidade buscando pelo seu nome
-    public Integer CidadeId(String nome, Cidade[] cidades)
+    public Integer cidadeId(String nome, Cidade[] cidades)
     {
-        int cnt = 0;
         //percorre tudo
         for (int i = 0; i < cidades.length; i++)
         {
@@ -188,11 +149,10 @@ public class GrafoBackTracking {
             if (cidades[i].getNome().compareTo(nome) == 0)
             {
                 //retorna o dado atual
-                cnt = i;
                 return i;
             }
 
         }
-        return cnt;
+        return 999;
     }
 }
