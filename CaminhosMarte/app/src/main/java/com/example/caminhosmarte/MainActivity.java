@@ -1,7 +1,7 @@
 package com.example.caminhosmarte;
-
+//Jogar fora as classes ArvoreDeBusca,Idados,ListaSimples,NoArvore,NoLista,PilhaLista
+//Imports
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -14,27 +14,27 @@ import android.widget.Spinner;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
-import android.graphics.RectF;
-import android.graphics.drawable.BitmapDrawable;
 import android.util.Log;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-
 import java.lang.reflect.Type;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     Spinner spiOrig, spiDest;
-    ImageView imgMapa,imgMapa2;
+    ImageView imgMapa;
     Button btnRecursivo, btnDijkstra;
     GridView dgvCaminhos;
+
     //Classes globais
+    Cidade []asCidades = new Cidade[23];
+    Ligacao []osCaminhos  = new Ligacao[28];
+    GrafoBackTracking oGrafoRec;
     ListaSimples<Cidade> listaCidades = new ListaSimples<Cidade>();
     ListaSimples<Ligacao> listaCaminhos = new ListaSimples<Ligacao>();
-    GrafoBackTracking oGrafoRec;
-//    Grafo Grafo;
+    //Grafo Grafo;
 
 
     @Override
@@ -44,12 +44,11 @@ public class MainActivity extends AppCompatActivity {
 
         //Encontra elemento por id na classe
         btnRecursivo = findViewById(R.id.btnRecursivo);
-        btnDijkstra = findViewById(R.id.btnDijkstra);
-        spiOrig = findViewById(R.id.spiOrig);
-        spiDest = findViewById(R.id.spiDest);
-        //imgMapa = findViewById(R.id.imgMapa);
-        imgMapa2 = findViewById(R.id.imgMapa2);
-        dgvCaminhos = findViewById(R.id.dgvCaminhos);
+        btnDijkstra  = findViewById(R.id.btnDijkstra);
+        spiOrig      = findViewById(R.id.spiOrig);
+        spiDest      = findViewById(R.id.spiDest);
+        imgMapa      = findViewById(R.id.imgMapa);
+        dgvCaminhos  = findViewById(R.id.dgvCaminhos);
 
         //https://www.bezkoder.com/java-android-read-json-file-assets-gson/
         //Ler do arquivo json
@@ -64,15 +63,16 @@ public class MainActivity extends AppCompatActivity {
 
         List<Cidade> citys = gson.fromJson(jsonFileString, listUserType);
         for (int i = 0; i < citys.size(); i++) {
-            Log.i("data", "> Item " + i + "\n" + citys.get(i));
             listaCidades.InserirAposFim(new NoLista<>(citys.get(i)));
-
+            asCidades[i] = citys.get(i);
+            System.err.println("Cidade" +  i + ": " + asCidades[i].getNome());
             spiCidades[i] = citys.get(i).getNome();
         }
         ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, spiCidades);
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spiOrig.setAdapter(spinnerAdapter);
         spiDest.setAdapter(spinnerAdapter);
+
 
         String jsonFileString2 = Utils.getJsonFromAssets(getApplicationContext(), "caminhos.json");
         Log.i("data", jsonFileString2);
@@ -81,35 +81,40 @@ public class MainActivity extends AppCompatActivity {
 
         List<Ligacao> paths = gson.fromJson(jsonFileString2, listUserType2);
         for (int i = 0; i < citys.size(); i++) {
-            Log.i("data", "> Item " + i + "\n" + paths.get(i));
             listaCaminhos.InserirAposFim(new NoLista<>(paths.get(i)));
+            osCaminhos[i] = paths.get(i);
         }
-
-        //oGrafoRec = new GrafoBackTracking(listaCaminhos, 23);
+        desenharNoMapa2();
+        //oGrafoRec = new GrafoBackTracking(osCaminhos, 23 ,asCidades);
 
         //Botão que trata de achar caminhos de maneira recursiva
         btnRecursivo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                while(listaCidades.DadoAtual() != null){
-                    System.err.println(listaCidades.DadoAtual().getNome());
-                    listaCidades.AvancarPosicao();
-                }
-
-                if(listaCidades.ExisteDado(new Cidade(spiOrig.getSelectedItem().toString()))){
-                    Toast.makeText(getApplicationContext(), listaCidades.DadoAtual().getNome(), Toast.LENGTH_SHORT).show();
-                }
-                if(listaCidades.ExisteDado(new Cidade(spiDest.getSelectedItem().toString()))){
-                    Toast.makeText(getApplicationContext(), listaCidades.DadoAtual().getNome(), Toast.LENGTH_SHORT).show();
-                }
-
 
                 if(spiOrig.getSelectedItem().toString().compareTo(spiDest.getSelectedItem().toString()) == 0){
                     System.err.println("Erro!\nCidade de origem igual cidade de destino");
                 }
                 else{
-                    System.err.println("Partiu achar Caminho!");
+
+                    int origem  = oGrafoRec.CidadeId(spiOrig.getSelectedItem().toString(),asCidades);
+                    int destino = oGrafoRec.CidadeId(spiDest.getSelectedItem().toString(),asCidades);
+
+//                    try {
+//                        PilhaLista<Movimento> pilhaCaminho = oGrafoRec.BuscarCaminhos(origem,destino);
+//                        if (pilhaCaminho.estaVazia())
+//                        {
+//                            Toast.makeText(getApplicationContext(), "Não achou caminho!", Toast.LENGTH_LONG).show();
+//                        }
+//                        else
+//                        {
+//                            Toast.makeText(getApplicationContext(), "Achou caminho!", Toast.LENGTH_LONG).show();
+//
+//                        }
+//                    } catch (Exception e) {
+//                        e.printStackTrace();
+//                    }
                 }
 
             }
@@ -118,7 +123,7 @@ public class MainActivity extends AppCompatActivity {
         btnDijkstra.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                desenharNoMapa2();
+
             }
         });
     }
@@ -137,7 +142,7 @@ public class MainActivity extends AppCompatActivity {
             float y = (float)cid.coordenadaY * 100;
             canvas.drawCircle(x, y, 1, paint);
             //canvas.drawText(cid.getNome(),x,y, paint);
-            imgMapa2.setImageBitmap(bitmap);
+            imgMapa.setImageBitmap(bitmap);
             listaCidades.AvancarPosicao();
         }
     }
@@ -159,21 +164,16 @@ public class MainActivity extends AppCompatActivity {
 
 
         Canvas canvas = new Canvas(mutableBitmap);
-        canvas.drawCircle(100, 100, 25, paint);
 
-
-        while(listaCidades.DadoAtual() != null){
-            Cidade cid = listaCidades.DadoAtual();
+        for(int i = 0;i < asCidades.length;i++){
+            Cidade cid = asCidades[i];
 
             float x = (float)cid.coordenadaX * 2000;
             float y = (float)cid.coordenadaY * 2000;
             canvas.drawCircle(x, y, 20, paint);
             canvas.drawText(cid.getNome(),x,y, paint);
-            imgMapa2.setAdjustViewBounds(true);
-            imgMapa2.setImageBitmap(mutableBitmap);
-            listaCidades.AvancarPosicao();
+            imgMapa.setAdjustViewBounds(true);
+            imgMapa.setImageBitmap(mutableBitmap);
         }
-        //ImageView imageView = (ImageView)findViewById(R.id.imgMapa2);
-
     }
 }

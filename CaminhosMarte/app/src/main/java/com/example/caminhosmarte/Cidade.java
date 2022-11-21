@@ -6,7 +6,7 @@ import java.util.List;
 public class Cidade implements Comparable<Cidade> {
     List<Cidade> cidadesJson = new ArrayList<Cidade>();
     public final int tamanhoNome = 15;
-    private String nomeCidade;
+    public String nomeCidade;
     double coordenadaX, coordenadaY;
     //atributo para os caminhos
     ListaSimples<Caminho> cams;

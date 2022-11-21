@@ -15,12 +15,12 @@ public class Ligacao implements Comparable<Ligacao> {
             iniCusto = iniTempo + tamTempo;
 
 
-    String idCidadeOrigem, idCidadeDestino;
+    String origem, destino;
     int distancia, tempo, custo;
 
-    public Ligacao(String idCidadeOrigem, String idCidadeDestino, int distancia, int tempo, int custo) {
-        this.idCidadeOrigem = idCidadeOrigem;
-        this.idCidadeDestino = idCidadeDestino;
+    public Ligacao(String origem, String destino, int distancia, int tempo, int custo) {
+        this.origem = origem;
+        this.destino = destino;
         this.distancia = distancia;
         this.tempo = tempo;
         this.custo = custo;
@@ -30,23 +30,23 @@ public class Ligacao implements Comparable<Ligacao> {
     public Ligacao() {
     }
 
-    public String getIdCidadeOrigem()
+    public String getOrigem()
     {
-        return idCidadeOrigem;
+        return origem;
     }
 
-    public String setIdCidadeOrigem(String IdCidadeOrigem)
+    public String setOrigem(String origem)
     {
-        return this.idCidadeOrigem = idCidadeOrigem;
+        return this.origem = origem;
     }
 
-    public String getIdCidadeDestino()
+    public String getDestino()
     {
-        return idCidadeDestino;
+        return destino;
     }
-    public String setIdCidadeDestino(String IdCidadeDestino)
+    public String setDestino(String destino)
     {
-        return this.idCidadeDestino = IdCidadeDestino;
+        return this.destino = destino;
     }
 
     public int getDistancia()
@@ -80,8 +80,8 @@ public class Ligacao implements Comparable<Ligacao> {
     }
 
     public int compareTo(Ligacao outro) {
-        return (idCidadeOrigem.toUpperCase() + idCidadeDestino.toUpperCase()).compareTo(
-                outro.idCidadeOrigem.toUpperCase() + outro.idCidadeDestino.toUpperCase());
+        return (origem.toUpperCase() + destino.toUpperCase()).compareTo(
+                outro.origem.toUpperCase() + outro.destino.toUpperCase());
     }
 
 //    public Ligacao LerRegistro(StreamReader arquivo) {
@@ -106,10 +106,10 @@ public class Ligacao implements Comparable<Ligacao> {
 //    }
 
     public String ParaArquivo() {
-        return String.format("%s %s %d %d %d",idCidadeOrigem,idCidadeDestino,distancia,tempo,custo);
+        return String.format("%s %s %d %d %d",origem,destino,distancia,tempo,custo);
     }
 
     public  String ToString() {
-        return String.format("%s %s %d %d %d",idCidadeOrigem,idCidadeDestino,distancia,tempo,custo);
+        return String.format("%s %s %d %d %d",origem,destino,distancia,tempo,custo);
     }
 }
