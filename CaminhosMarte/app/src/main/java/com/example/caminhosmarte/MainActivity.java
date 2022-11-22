@@ -37,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
     List<String> listCidades = new ArrayList<String>();
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
         List<Cidade> citys = gson.fromJson(jsonFileString, listUserType);
         for (int i = 0; i < citys.size(); i++) {
             asCidades[i] = citys.get(i);
-            listCidades.add(citys.get(i).nomeCidade);
+            //listCidades.add(citys.get(i).nomeCidade);
             System.err.println("Cidade" +  i + ": " + asCidades[i].getNome());
             spiCidades[i] = citys.get(i).getNome();
         }
@@ -143,8 +144,17 @@ public class MainActivity extends AppCompatActivity {
                     int origem  = oGrafoRec.cidadeId(spiOrig.getSelectedItem().toString(),asCidades);
                     int destino = oGrafoRec.cidadeId(spiDest.getSelectedItem().toString(),asCidades);
 
-                   Grafo oGrafo = new Grafo(28);
+                   Grafo oGrafo = new Grafo(asCidades.length);
+
+                    for (Cidade cid : asCidades) {
+                        oGrafo.novoVertice(cid.getNome());
+                    }
+                    for (Ligacao cam : osCaminhos) {
+                        oGrafo.novaAresta(oGrafoRec.cidadeId(cam.origem,asCidades),oGrafoRec.cidadeId(cam.destino,asCidades),cam.distancia);
+                    }
+
                    oGrafo.menorCaminho(origem,destino,listCidades);
+
                 }
             }
         });

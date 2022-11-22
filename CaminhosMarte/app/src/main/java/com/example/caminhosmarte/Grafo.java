@@ -2,6 +2,7 @@ package com.example.caminhosmarte;
 
 
 import android.annotation.SuppressLint;
+import android.util.Log;
 
 import java.io.Console;
 import java.util.List;
@@ -111,7 +112,7 @@ public class Grafo {
     public void novoVertice(String label)
     {
         vertices[numVerts] = new Vertice(label);
-//        numVerts++;
+        numVerts++;
 //        if (dgv != null) // se foi passado um dataGridView para exibição
 //        { // é realizado o seu ajuste para a quantidade de vértices
 //            dgv.RowCount = numVerts + 1;
@@ -280,9 +281,14 @@ public class Grafo {
         lista.add(resultado);
         lista.add(" ");
         lista.add(" ");
+//        Log.i("final do percurso" , String.valueOf(finalDoPercurso));
+//        for (int i = 0 ; i < vertices.length; i++) {
+//            Log.i("verticies", vertices[i].rotulo);
+//        }
         lista.add("Caminho entre " + vertices[inicioDoPercurso].rotulo +
                 " e " + vertices[finalDoPercurso].rotulo);
         lista.add(" ");
+
         int onde = finalDoPercurso;
         Stack<String> pilha = new Stack<String>();
         int cont = 0;
