@@ -52,10 +52,7 @@ public class MainActivity extends AppCompatActivity {
         dgvCaminhos  = findViewById(R.id.dgvCaminhos);
 
         //https://acervolima.com/gridview-no-android-com-exemplo/
-        ArrayList<CidadeModel> cidadeModelArrayList = new ArrayList<CidadeModel>();
-        cidadeModelArrayList.add(new CidadeModel("A -->"));
-        CidadeAdapter adapter = new CidadeAdapter(this, cidadeModelArrayList);
-        dgvCaminhos.setAdapter(adapter);
+
 
 
 
@@ -137,7 +134,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-
                 if(spiOrig.getSelectedItem().toString().compareTo(spiDest.getSelectedItem().toString()) == 0){
                     System.err.println("Erro!\nCidade de origem igual cidade de destino");
                 } else {
@@ -153,7 +149,8 @@ public class MainActivity extends AppCompatActivity {
                         oGrafo.novaAresta(oGrafoRec.cidadeId(cam.origem,asCidades),oGrafoRec.cidadeId(cam.destino,asCidades),cam.distancia);
                     }
 
-                   oGrafo.menorCaminho(origem,destino,listCidades);
+                   oGrafo.menorCaminho(origem,destino,listCidades,dgvCaminhos);
+
 
                 }
             }
@@ -183,7 +180,7 @@ public class MainActivity extends AppCompatActivity {
         for(int i = 0;i < asCidades.length;i++){
             Cidade cid = asCidades[i];
 
-            float x = (float)cid.coordenadaX * 2000;
+            float x = (float)cid.coordenadaX * 3500;
             float y = (float)cid.coordenadaY * 2000;
             canvas.drawCircle(x, y, 20, paint);
             canvas.drawText(cid.getNome(),x,y, paint);

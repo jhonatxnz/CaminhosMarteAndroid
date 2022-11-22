@@ -3,8 +3,10 @@ package com.example.caminhosmarte;
 
 import android.annotation.SuppressLint;
 import android.util.Log;
+import android.widget.GridView;
 
 import java.io.Console;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 
@@ -34,7 +36,7 @@ public class Grafo {
         percurso = new DistOriginal[NUM_VERTICES];
     }
 
-    public String menorCaminho(int inicioDoPercurso, int finalDoPercurso, List<String> lista)
+    public String menorCaminho(int inicioDoPercurso, int finalDoPercurso, List<String> lista,GridView gv)
     {
         for (int j = 0; j < numVerts; j++)
             vertices[j].foiVisitado = false;
@@ -53,7 +55,7 @@ public class Grafo {
             vertices[verticeAtual].foiVisitado = true;
             ajustarMenorCaminho(lista);
         }
-        return exibirPercursos(inicioDoPercurso, finalDoPercurso, lista);
+        return exibirPercursos(inicioDoPercurso, finalDoPercurso, lista,gv);
     }
 
     public void ajustarMenorCaminho(List<String> lista)
@@ -113,12 +115,6 @@ public class Grafo {
     {
         vertices[numVerts] = new Vertice(label);
         numVerts++;
-//        if (dgv != null) // se foi passado um dataGridView para exibição
-//        { // é realizado o seu ajuste para a quantidade de vértices
-//            dgv.RowCount = numVerts + 1;
-//            dgv.ColumnCount = numVerts + 1;
-//            dgv.Columns[numVerts].Width = 45;
-//        }
     }
     public void novaAresta(int origem, int destino, int peso)
     {
@@ -264,8 +260,7 @@ public class Grafo {
                 percursoEmProfundidadeRec(adjMatrix, numVerts, i);
     }
 
-    public String exibirPercursos(int inicioDoPercurso, int finalDoPercurso, List<String> lista/*,
-                                  ListBox lista*/)
+    public String exibirPercursos(int inicioDoPercurso, int finalDoPercurso, List<String> lista,GridView gv)
     {
         String resultado = "";
         for (int j = 0; j < numVerts; j++)
@@ -305,10 +300,18 @@ public class Grafo {
             if (pilha.size() != 0)
                 resultado += " --> ";
         }
+        ArrayList<CidadeModel> cidadeModelArrayList = new ArrayList<CidadeModel>();
+        //arrumar
         if ((cont == 1) && (percurso[finalDoPercurso].distancia == infinity))
             resultado = "Não há caminho";
-        else
+        else{
             resultado += " --> " + vertices[finalDoPercurso].rotulo;
+            cidadeModelArrayList.add(new CidadeModel(resultado));
+            CidadeAdapter adapter = new CidadeAdapter(gv.getContext(), cidadeModelArrayList);
+            gv.setAdapter(adapter);
+        }
+
+
 
         System.err.println(resultado);
         return resultado;

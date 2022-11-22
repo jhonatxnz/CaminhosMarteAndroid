@@ -96,6 +96,7 @@
         android:layout_width="142dp"
         android:layout_height="195dp"
         android:numColumns="auto_fit"
+        android:columnWidth="200dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/imgMapa"
         app:layout_constraintHorizontal_bias="0.018"
