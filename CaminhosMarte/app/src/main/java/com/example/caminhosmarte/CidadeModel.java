@@ -1,10 +1,7 @@
 package com.example.caminhosmarte;
 
 public class CidadeModel {
-    // string course_name for storing course_name
-    // and imgid for storing image id.
     private String cidade_name;
-    private Cidade cid;
 
     public CidadeModel(String cidade_name) {
         this.cidade_name = cidade_name;
@@ -19,8 +16,6 @@ public class CidadeModel {
     }
 }
 //public class CidadeModel {
-//    // string course_name for storing course_name
-//    // and imgid for storing image id.
 //    private Cidade cid;
 //
 //    public CidadeModel(Cidade cid) {

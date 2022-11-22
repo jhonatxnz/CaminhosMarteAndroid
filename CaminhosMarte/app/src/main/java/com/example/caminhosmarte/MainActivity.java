@@ -33,7 +33,6 @@ public class MainActivity extends AppCompatActivity {
     Cidade []asCidades       = new Cidade[23];
     Ligacao []osCaminhos     = new Ligacao[28];
     GrafoBackTracking oGrafoRec;
-    Grafo oGrafoDijkstra;
     List<String> listCidades = new ArrayList<String>();
 
 
@@ -52,9 +51,6 @@ public class MainActivity extends AppCompatActivity {
         dgvCaminhos  = findViewById(R.id.dgvCaminhos);
 
         //https://acervolima.com/gridview-no-android-com-exemplo/
-
-
-
 
         //https://www.bezkoder.com/java-android-read-json-file-assets-gson/
         //Ler do arquivo json
@@ -90,7 +86,7 @@ public class MainActivity extends AppCompatActivity {
             osCaminhos[i] = paths.get(i);
         }
         //Desenha as cidades no mapa
-        desenharNoMapa2();
+        desenhar();
         //Monta a matriz de adjacencia
         oGrafoRec = new GrafoBackTracking(osCaminhos, citys.size() ,asCidades);
 
@@ -106,7 +102,6 @@ public class MainActivity extends AppCompatActivity {
 
                     int origem  = oGrafoRec.cidadeId(spiOrig.getSelectedItem().toString(),asCidades);
                     int destino = oGrafoRec.cidadeId(spiDest.getSelectedItem().toString(),asCidades);
-                    int somaDist = 0;
 
                     try {
 //                        List<Movimento> listCaminho = oGrafoRec.Recursao(origem,destino,asCidades);
@@ -148,17 +143,14 @@ public class MainActivity extends AppCompatActivity {
                     for (Ligacao cam : osCaminhos) {
                         oGrafo.novaAresta(oGrafoRec.cidadeId(cam.origem,asCidades),oGrafoRec.cidadeId(cam.destino,asCidades),cam.distancia);
                     }
-
                    oGrafo.menorCaminho(origem,destino,listCidades,dgvCaminhos);
-
-
                 }
             }
         });
     }
 
 
-    public void desenharNoMapa2(){
+    public void desenhar(){
         BitmapFactory.Options myOptions = new BitmapFactory.Options();
         myOptions.inDither = true;
         myOptions.inScaled = false;
@@ -187,10 +179,10 @@ public class MainActivity extends AppCompatActivity {
             imgMapa.setAdjustViewBounds(true);
             imgMapa.setImageBitmap(mutableBitmap);
         }
-        onDraw(canvas,paint);
+        linha(canvas,paint);
     }
 
-    public void onDraw(Canvas canvas,Paint paint) {
+    public void linha(Canvas canvas,Paint paint) {
         canvas.drawLine(50, 100, 600, 600, paint);
         canvas.drawLine(50, 550, 770, 0, paint);
     }

@@ -1,8 +1,6 @@
 package com.example.caminhosmarte;
 
-
 import android.annotation.SuppressLint;
-import android.util.Log;
 import android.widget.GridView;
 
 import java.io.Console;
@@ -19,7 +17,7 @@ public class Grafo {
     DistOriginal[] percurso;
     int infinity = Integer.MAX_VALUE;
     int verticeAtual; // global que indica o vértice atualmente sendo visitado
-    int doInicioAteAtual; // global usada para ajustar menor caminho com Djikstra
+    long doInicioAteAtual; // global usada para ajustar menor caminho com Djikstra
     int nTree;
 
     public Grafo(int number) {
@@ -36,20 +34,23 @@ public class Grafo {
         percurso = new DistOriginal[NUM_VERTICES];
     }
 
-    public String menorCaminho(int inicioDoPercurso, int finalDoPercurso, List<String> lista,GridView gv)
+    public String menorCaminho(int inicioDoPercurso, int finalDoPercurso, List<String> lista, GridView gv)
     {
         for (int j = 0; j < numVerts; j++)
             vertices[j].foiVisitado = false;
+
         vertices[inicioDoPercurso].foiVisitado = true;
+
         for (int j = 0; j < numVerts; j++)
         {
             int tempDist = adjMatrix[inicioDoPercurso][j];
             percurso[j] = new DistOriginal(inicioDoPercurso, tempDist);
         }
+
         for (int nTree = 0; nTree < numVerts; nTree++)
         {
             int indiceDoMenor = obterMenor();
-            int distanciaMinima = percurso[indiceDoMenor].distancia;
+            long distanciaMinima = percurso[indiceDoMenor].distancia;
             verticeAtual = indiceDoMenor;
             doInicioAteAtual = percurso[indiceDoMenor].distancia;
             vertices[verticeAtual].foiVisitado = true;
@@ -66,26 +67,23 @@ public class Grafo {
 
                 int atualAteMargem = adjMatrix[verticeAtual][coluna];
 
-                int doInicioAteMargem = doInicioAteAtual + atualAteMargem;
+                long doInicioAteMargem = doInicioAteAtual + atualAteMargem;
 
-                int distanciaDoCaminho = percurso[coluna].distancia;
+                long distanciaDoCaminho = percurso[coluna].distancia;
+
                 if (doInicioAteMargem < distanciaDoCaminho)
                 {
                     percurso[coluna].verticePai = verticeAtual;
                     percurso[coluna].distancia = doInicioAteMargem;
-                    exibirTabela(lista);
-
+                    // exibirTabela(lista);
                 }
             }
-        lista.add("==================Caminho ajustado==============");
-        lista.add(" ");
     }
 
     @SuppressLint("SuspiciousIndentation")
     public void exibirTabela(List<String> lista)
     {
         String dist = "";
-        lista.add("Vértice\tVisitado?\tPeso\tVindo de");
         for (int i = 0; i < numVerts; i++)
         {
             if (percurso[i].distancia == infinity)
@@ -95,15 +93,14 @@ public class Grafo {
             lista.add(vertices[i].rotulo + "\t" + vertices[i].foiVisitado +
                     "\t\t" + dist + "\t" + vertices[percurso[i].verticePai].rotulo);
         }
-        lista.add("-----------------------------------------------------");
     }
 
     public int obterMenor()
     {
-        int distanciaMinima = infinity;
+        long distanciaMinima = infinity;
         int indiceDaMinima = 0;
         for (int j = 0; j < numVerts; j++)
-            if (!(vertices[j].foiVisitado) && (percurso[j].distancia <distanciaMinima))
+            if (!(vertices[j].foiVisitado) && (percurso[j].distancia < distanciaMinima) && (percurso[j].distancia != infinity))
             {
                 distanciaMinima = percurso[j].distancia;
                 indiceDaMinima = j;
@@ -115,6 +112,12 @@ public class Grafo {
     {
         vertices[numVerts] = new Vertice(label);
         numVerts++;
+//        if (dgv != null) // se foi passado um dataGridView para exibição
+//        { // é realizado o seu ajuste para a quantidade de vértices
+//            dgv.RowCount = numVerts + 1;
+//            dgv.ColumnCount = numVerts + 1;
+//            dgv.Columns[numVerts].Width = 45;
+//        }
     }
     public void novaAresta(int origem, int destino, int peso)
     {
@@ -263,26 +266,6 @@ public class Grafo {
     public String exibirPercursos(int inicioDoPercurso, int finalDoPercurso, List<String> lista,GridView gv)
     {
         String resultado = "";
-        for (int j = 0; j < numVerts; j++)
-        {
-            resultado += vertices[j].rotulo + "=";
-            if (percurso[j].distancia == infinity)
-                resultado += "inf";
-            else
-                resultado += percurso[j].distancia+" ";
-            String pai = vertices[percurso[j].verticePai].rotulo;
-            resultado += "(" + pai + ") ";
-        }
-        lista.add(resultado);
-        lista.add(" ");
-        lista.add(" ");
-//        Log.i("final do percurso" , String.valueOf(finalDoPercurso));
-//        for (int i = 0 ; i < vertices.length; i++) {
-//            Log.i("verticies", vertices[i].rotulo);
-//        }
-        lista.add("Caminho entre " + vertices[inicioDoPercurso].rotulo +
-                " e " + vertices[finalDoPercurso].rotulo);
-        lista.add(" ");
 
         int onde = finalDoPercurso;
         Stack<String> pilha = new Stack<String>();
@@ -293,6 +276,7 @@ public class Grafo {
             pilha.push(vertices[onde].rotulo);
             cont++;
         }
+
         resultado = "";
         while (pilha.size() != 0)
         {
@@ -301,7 +285,6 @@ public class Grafo {
                 resultado += " --> ";
         }
         ArrayList<CidadeModel> cidadeModelArrayList = new ArrayList<CidadeModel>();
-        //arrumar
         if ((cont == 1) && (percurso[finalDoPercurso].distancia == infinity))
             resultado = "Não há caminho";
         else{
@@ -310,8 +293,6 @@ public class Grafo {
             CidadeAdapter adapter = new CidadeAdapter(gv.getContext(), cidadeModelArrayList);
             gv.setAdapter(adapter);
         }
-
-
 
         System.err.println(resultado);
         return resultado;
