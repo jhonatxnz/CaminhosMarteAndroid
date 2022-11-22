@@ -95,7 +95,6 @@
         android:id="@+id/dgvCaminhos"
         android:layout_width="142dp"
         android:layout_height="195dp"
-        android:columnWidth="30dp"
         android:numColumns="auto_fit"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/imgMapa"

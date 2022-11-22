@@ -180,5 +180,11 @@ public class MainActivity extends AppCompatActivity {
             imgMapa.setAdjustViewBounds(true);
             imgMapa.setImageBitmap(mutableBitmap);
         }
+        onDraw(canvas,paint);
+    }
+
+    public void onDraw(Canvas canvas,Paint paint) {
+        canvas.drawLine(50, 100, 600, 600, paint);
+        canvas.drawLine(50, 550, 770, 0, paint);
     }
 }
