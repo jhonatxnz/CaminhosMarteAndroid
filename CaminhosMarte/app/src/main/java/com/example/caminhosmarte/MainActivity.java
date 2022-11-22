@@ -50,6 +50,14 @@ public class MainActivity extends AppCompatActivity {
         imgMapa      = findViewById(R.id.imgMapa);
         dgvCaminhos  = findViewById(R.id.dgvCaminhos);
 
+        //https://acervolima.com/gridview-no-android-com-exemplo/
+        ArrayList<CidadeModel> cidadeModelArrayList = new ArrayList<CidadeModel>();
+        cidadeModelArrayList.add(new CidadeModel("A -->"));
+        CidadeAdapter adapter = new CidadeAdapter(this, cidadeModelArrayList);
+        dgvCaminhos.setAdapter(adapter);
+
+
+
         //https://www.bezkoder.com/java-android-read-json-file-assets-gson/
         //Ler do arquivo json
         String [] spiCidades;
@@ -123,20 +131,20 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-        for(int i = 0;i < listCidades.size();i++){
-           System.err.println(listCidades.get(i));
-        }
         //Botão que trata de achar caminhos com algoritimo de dijkstra
         btnDijkstra.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+
                 if(spiOrig.getSelectedItem().toString().compareTo(spiDest.getSelectedItem().toString()) == 0){
                     System.err.println("Erro!\nCidade de origem igual cidade de destino");
                 } else {
                     int origem  = oGrafoRec.cidadeId(spiOrig.getSelectedItem().toString(),asCidades);
                     int destino = oGrafoRec.cidadeId(spiDest.getSelectedItem().toString(),asCidades);
 
-                    oGrafoDijkstra.caminho(origem,destino,listCidades);
+                   Grafo oGrafo = new Grafo(28);
+                   oGrafo.menorCaminho(origem,destino,listCidades);
                 }
             }
         });

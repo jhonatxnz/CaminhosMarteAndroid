@@ -33,7 +33,7 @@ public class Grafo {
         percurso = new DistOriginal[NUM_VERTICES];
     }
 
-    public String caminho(int inicioDoPercurso, int finalDoPercurso, List<String> lista)
+    public String menorCaminho(int inicioDoPercurso, int finalDoPercurso, List<String> lista)
     {
         for (int j = 0; j < numVerts; j++)
             vertices[j].foiVisitado = false;
