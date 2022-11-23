@@ -130,10 +130,11 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
 
                 if(spiOrig.getSelectedItem().toString().compareTo(spiDest.getSelectedItem().toString()) == 0){
-                    System.err.println("Erro!\nCidade de origem igual cidade de destino");
+                    Toast.makeText(getApplicationContext(),"Erro!\nCidade de origem igual cidade de destino",Toast.LENGTH_LONG).show();
                 } else {
                     int origem  = oGrafoRec.cidadeId(spiOrig.getSelectedItem().toString(),asCidades);
                     int destino = oGrafoRec.cidadeId(spiDest.getSelectedItem().toString(),asCidades);
+
 
                    Grafo oGrafo = new Grafo(asCidades.length);
 
@@ -144,6 +145,7 @@ public class MainActivity extends AppCompatActivity {
                         oGrafo.novaAresta(oGrafoRec.cidadeId(cam.origem,asCidades),oGrafoRec.cidadeId(cam.destino,asCidades),cam.distancia);
                     }
                    oGrafo.menorCaminho(origem,destino,listCidades,dgvCaminhos);
+
                 }
             }
         });
@@ -186,4 +188,5 @@ public class MainActivity extends AppCompatActivity {
         canvas.drawLine(50, 100, 600, 600, paint);
         canvas.drawLine(50, 550, 770, 0, paint);
     }
+
 }

@@ -1,7 +1,11 @@
 package com.example.caminhosmarte;
 
 import android.annotation.SuppressLint;
+import android.graphics.Canvas;
+import android.graphics.Paint;
 import android.widget.GridView;
+import android.widget.ImageView;
+import android.widget.Toast;
 
 import java.io.Console;
 import java.util.ArrayList;
@@ -19,6 +23,8 @@ public class Grafo {
     int verticeAtual; // global que indica o vértice atualmente sendo visitado
     long doInicioAteAtual; // global usada para ajustar menor caminho com Djikstra
     int nTree;
+
+    String [] gambiarra;
 
     public Grafo(int number) {
         NUM_VERTICES = number;
@@ -285,8 +291,10 @@ public class Grafo {
                 resultado += " --> ";
         }
         ArrayList<CidadeModel> cidadeModelArrayList = new ArrayList<CidadeModel>();
-        if ((cont == 1) && (percurso[finalDoPercurso].distancia == infinity))
+        if ((cont == 1) && (percurso[finalDoPercurso].distancia == infinity)){
             resultado = "Não há caminho";
+            Toast.makeText(gv.getContext(), resultado,Toast.LENGTH_LONG).show();;
+        }
         else{
             resultado += " --> " + vertices[finalDoPercurso].rotulo;
             cidadeModelArrayList.add(new CidadeModel(resultado));
@@ -295,6 +303,10 @@ public class Grafo {
         }
 
         System.err.println(resultado);
+        gambiarra = resultado.split(" --> ");
+        for(int i = 0;i < gambiarra.length;i++){
+            System.err.println(gambiarra[i]);
+        }
         return resultado;
     }
 }
