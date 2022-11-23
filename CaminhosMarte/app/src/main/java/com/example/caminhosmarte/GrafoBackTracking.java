@@ -2,6 +2,7 @@ package com.example.caminhosmarte;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Stack;
 
 public class GrafoBackTracking {
     final int tamanhoDistancia = 4;
@@ -48,8 +49,10 @@ public class GrafoBackTracking {
         }
     }
 //RECURSAO
-    public void Recursao(){
-    }
+public Stack<Movimento> Recursao(){
+    Stack<Movimento> caminhos = new Stack<Movimento>();
+    return caminhos;
+}
 
 
 //    public PilhaVetor<Movimento> BuscarCaminho(int origem, int destino,

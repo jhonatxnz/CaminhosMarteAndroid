@@ -40,7 +40,7 @@ public class Grafo {
         percurso = new DistOriginal[NUM_VERTICES];
     }
 
-    public String menorCaminho(int inicioDoPercurso, int finalDoPercurso, List<String> lista, GridView gv)
+    public String menorCaminho(int inicioDoPercurso, int finalDoPercurso, GridView gv)
     {
         for (int j = 0; j < numVerts; j++)
             vertices[j].foiVisitado = false;
@@ -60,12 +60,12 @@ public class Grafo {
             verticeAtual = indiceDoMenor;
             doInicioAteAtual = percurso[indiceDoMenor].distancia;
             vertices[verticeAtual].foiVisitado = true;
-            ajustarMenorCaminho(lista);
+            ajustarMenorCaminho();
         }
-        return exibirPercursos(inicioDoPercurso, finalDoPercurso, lista,gv);
+        return exibirPercursos(inicioDoPercurso, finalDoPercurso, gv);
     }
 
-    public void ajustarMenorCaminho(List<String> lista)
+    public void ajustarMenorCaminho()
     {
         for (int coluna = 0; coluna < numVerts; coluna++)
             if (!vertices[coluna].foiVisitado) // para cada vértice ainda não visitado
@@ -269,7 +269,7 @@ public class Grafo {
                 percursoEmProfundidadeRec(adjMatrix, numVerts, i);
     }
 
-    public String exibirPercursos(int inicioDoPercurso, int finalDoPercurso, List<String> lista,GridView gv)
+    public String exibirPercursos(int inicioDoPercurso, int finalDoPercurso, GridView gv)
     {
         String resultado = "";
 
@@ -304,9 +304,7 @@ public class Grafo {
 
         System.err.println(resultado);
         gambiarra = resultado.split(" --> ");
-        for(int i = 0;i < gambiarra.length;i++){
-            System.err.println(gambiarra[i]);
-        }
+
         return resultado;
     }
 }

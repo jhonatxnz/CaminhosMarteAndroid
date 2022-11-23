@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.GridView;
@@ -22,6 +23,7 @@ import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Stack;
 
 public class MainActivity extends AppCompatActivity {
     Spinner spiOrig, spiDest;
@@ -33,9 +35,7 @@ public class MainActivity extends AppCompatActivity {
     Cidade []asCidades       = new Cidade[23];
     Ligacao []osCaminhos     = new Ligacao[28];
     GrafoBackTracking oGrafoRec;
-    List<String> listCidades = new ArrayList<String>();
-
-
+    Grafo oGrafo = new Grafo(asCidades.length);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,7 +104,7 @@ public class MainActivity extends AppCompatActivity {
                     int destino = oGrafoRec.cidadeId(spiDest.getSelectedItem().toString(),asCidades);
 
                     try {
-//                        List<Movimento> listCaminho = oGrafoRec.Recursao(origem,destino,asCidades);
+//                        Stack<Movimento> caminhos = oGrafoRec.Recursao(origem,destino,asCidades);
 //                        if (listCaminho.size() <= 0)
 //                        {
 //                            Toast.makeText(getApplicationContext(), "Não achou caminho!", Toast.LENGTH_LONG).show();
@@ -136,7 +136,7 @@ public class MainActivity extends AppCompatActivity {
                     int destino = oGrafoRec.cidadeId(spiDest.getSelectedItem().toString(),asCidades);
 
 
-                   Grafo oGrafo = new Grafo(asCidades.length);
+
 
                     for (Cidade cid : asCidades) {
                         oGrafo.novoVertice(cid.getNome());
@@ -144,8 +144,33 @@ public class MainActivity extends AppCompatActivity {
                     for (Ligacao cam : osCaminhos) {
                         oGrafo.novaAresta(oGrafoRec.cidadeId(cam.origem,asCidades),oGrafoRec.cidadeId(cam.destino,asCidades),cam.distancia);
                     }
-                   oGrafo.menorCaminho(origem,destino,listCidades,dgvCaminhos);
+                   oGrafo.menorCaminho(origem,destino,dgvCaminhos);
+                }
+            }
+        });
+        dgvCaminhos.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
 
+                for (int cont = 0; cont < oGrafo.gambiarra.length; cont++)
+                {
+                    Cidade cidadeUm = new Cidade(oGrafo.gambiarra[cont], 0, 0, null);
+                    int i = oGrafoRec.cidadeId(cidadeUm.nomeCidade, asCidades);
+                    //int i = cidades.toString().indexOf(oi.nomeCidade);
+                    double x = asCidades[i].coordenadaX;
+                    double y = asCidades[i].coordenadaY;
+
+                    if (cont < oGrafo.gambiarra.length)
+                        cont--;
+
+                    Cidade cidadeDois = new Cidade(oGrafo.gambiarra[++cont], 0, 0, null);
+
+                    i = oGrafoRec.cidadeId(cidadeDois.nomeCidade, asCidades);
+
+                    double x2 = asCidades[i].coordenadaX;
+                    double y2 = asCidades[i].coordenadaY;
+
+                    linha(x, y, x2, y2);
                 }
             }
         });
@@ -181,12 +206,38 @@ public class MainActivity extends AppCompatActivity {
             imgMapa.setAdjustViewBounds(true);
             imgMapa.setImageBitmap(mutableBitmap);
         }
-        linha(canvas,paint);
-    }
 
-    public void linha(Canvas canvas,Paint paint) {
-        canvas.drawLine(50, 100, 600, 600, paint);
-        canvas.drawLine(50, 550, 770, 0, paint);
+    }
+    public void linha(double coordX, double coordY, double coordX2, double coordY2){
+        BitmapFactory.Options myOptions = new BitmapFactory.Options();
+        myOptions.inDither = true;
+        myOptions.inScaled = false;
+        myOptions.inPreferredConfig = Bitmap.Config.ARGB_8888;// important
+        myOptions.inPurgeable = true;
+
+        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.mars_political_map_by_axiaterraartunion_d4vfxdf, myOptions);
+        Paint paint = new Paint();
+        paint.setAntiAlias(true);
+        paint.setColor(Color.BLUE);
+        paint.setTextSize(100);
+
+        Bitmap workingBitmap = Bitmap.createBitmap(bitmap);
+        Bitmap mutableBitmap = workingBitmap.copy(Bitmap.Config.ARGB_8888, true);
+
+        Canvas canvas = new Canvas(mutableBitmap);
+        // canvas.drawCircle(60, 50, 25, paint);
+        paint.setStrokeWidth(30);
+
+        float x = (float) (coordX * 3500);
+        float y = (float) (coordY * 2000);
+        float x2 = (float) (coordX2 * 3500);
+        float y2 = (float) (coordY2 * 2000);
+
+        canvas.drawLine(x, y, x2, y2, paint);
+
+        ImageView imageView = (ImageView)findViewById(R.id.imgMapa);
+        imageView.setAdjustViewBounds(true);
+        imageView.setImageBitmap(mutableBitmap);
     }
 
 }

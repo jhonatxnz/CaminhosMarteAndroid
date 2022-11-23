@@ -30,14 +30,6 @@ public class CidadeAdapter extends ArrayAdapter<CidadeModel> {
         TextView cidadeTV = listitemView.findViewById(R.id.idTexto);
 
         cidadeTV.setText(courseModel.getCidade_name());
-        //cidadeTV.setText(courseModel.getCidade().nomeCidade);
-
-        cidadeTV.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(getContext(),"Exibindo caminho no mapa",Toast.LENGTH_LONG).show();
-            }
-        });
 
         return listitemView;
     }
