@@ -24,7 +24,7 @@ public class Grafo {
     long doInicioAteAtual; // global usada para ajustar menor caminho com Djikstra
     int nTree;
 
-    String [] gambiarra;
+    String [] caminhosEncontrados;
 
     public Grafo(int number) {
         NUM_VERTICES = number;
@@ -303,7 +303,7 @@ public class Grafo {
         }
 
         System.err.println(resultado);
-        gambiarra = resultado.split(" --> ");
+        caminhosEncontrados = resultado.split(" --> ");
 
         return resultado;
     }
