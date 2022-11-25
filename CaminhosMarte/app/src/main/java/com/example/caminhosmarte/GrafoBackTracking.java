@@ -1,5 +1,7 @@
 package com.example.caminhosmarte;
 
+import android.widget.GridView;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
@@ -49,9 +51,19 @@ public class GrafoBackTracking {
         }
     }
 //RECURSAO
-public Stack<Movimento> Recursao(){
-    Stack<Movimento> caminhos = new Stack<Movimento>();
-    return caminhos;
+public String[] Recursao(GridView gv){
+        String [] caminhosEncontrados = new String[26];
+        ArrayList<CidadeModel> cidadeModelArrayList = new ArrayList<CidadeModel>();
+        char letra = 'A';
+
+        for(int i = 0;i < caminhosEncontrados.length;i++){
+            caminhosEncontrados[i] = ""+letra++;
+            cidadeModelArrayList.add(new CidadeModel(caminhosEncontrados[i]));
+        }
+
+    CidadeAdapter adapter = new CidadeAdapter(gv.getContext(), cidadeModelArrayList);
+    gv.setAdapter(adapter);
+    return caminhosEncontrados;
 }
 
 

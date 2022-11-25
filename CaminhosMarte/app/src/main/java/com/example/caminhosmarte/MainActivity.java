@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
     Cidade []asCidades       = new Cidade[23];
     Ligacao []osCaminhos     = new Ligacao[28];
     GrafoBackTracking oGrafoRec;
-    List<String> original = new ArrayList<String>();
+    String []caminhosEncontrados = new String[26];
     Grafo oGrafo;
 
 
@@ -104,6 +104,8 @@ public class MainActivity extends AppCompatActivity {
 
                     int origem  = oGrafoRec.cidadeId(spiOrig.getSelectedItem().toString(),asCidades);
                     int destino = oGrafoRec.cidadeId(spiDest.getSelectedItem().toString(),asCidades);
+                    caminhosEncontrados =  oGrafoRec.Recursao(dgvCaminhos);
+
 
                     try {
 //                        Stack<Movimento> caminhos = oGrafoRec.Recursao(origem,destino,asCidades);
