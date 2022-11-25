@@ -32,10 +32,11 @@ public class MainActivity extends AppCompatActivity {
     GridView dgvCaminhos;
 
     //Classes globais
-    Cidade []asCidades       = new Cidade[23];
-    Ligacao []osCaminhos     = new Ligacao[28];
-    GrafoBackTracking oGrafoRec;
+    Cidade []asCidades               = new Cidade[23];
+    Ligacao []osCaminhos             = new Ligacao[28];
     List<String> caminhosEncontrados = new ArrayList<String>();
+    GrafoBackTracking oGrafoRec;
+
     Grafo oGrafo;
 
 
@@ -43,6 +44,23 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        BitmapFactory.Options myOptions = new BitmapFactory.Options();
+        myOptions.inDither              = true;
+        myOptions.inScaled              = false;
+        myOptions.inPreferredConfig     = Bitmap.Config.ARGB_8888;// important
+        myOptions.inPurgeable           = true;
+
+        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.mars_political_map_by_axiaterraartunion_d4vfxdf,myOptions);
+        Paint paint   = new Paint();
+        paint.setAntiAlias(true);
+        paint.setColor(Color.BLACK);
+        paint.setTextSize(100);
+        paint.setStrokeWidth(30);
+
+        Bitmap workingBitmap = Bitmap.createBitmap(bitmap);
+        Bitmap mutableBitmap = workingBitmap.copy(Bitmap.Config.ARGB_8888, true);
+        Canvas canvas        = new Canvas(mutableBitmap);
 
         //Encontra elemento por id na classe
         btnRecursivo = findViewById(R.id.btnRecursivo);
@@ -88,7 +106,7 @@ public class MainActivity extends AppCompatActivity {
             osCaminhos[i] = paths.get(i);
         }
         //Desenha as cidades no mapa
-        desenhar();
+        desenhar(mutableBitmap,paint,canvas);
         //Monta a matriz de adjacencia
         oGrafoRec = new GrafoBackTracking(osCaminhos, citys.size() ,asCidades);
 
@@ -96,7 +114,7 @@ public class MainActivity extends AppCompatActivity {
         btnRecursivo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                caminhosEncontrados.clear();
 
                 if(spiOrig.getSelectedItem().toString().compareTo(spiDest.getSelectedItem().toString()) == 0){
                     System.err.println("Erro!\nCidade de origem igual cidade de destino");
@@ -109,18 +127,11 @@ public class MainActivity extends AppCompatActivity {
 
                     try {
                         caminhosEncontrados =  oGrafoRec.Recursao(dgvCaminhos,origem,destino,asCidades);
-//                        if (listCaminho.size() <= 0)
-//                        {
-//                            Toast.makeText(getApplicationContext(), "Não achou caminho!", Toast.LENGTH_LONG).show();
-//                        }
-//                        else
-//                        {
-//                            for (Movimento mov : listCaminho) {
-//                            }
-//
-//                            Toast.makeText(getApplicationContext(), "Achou caminho!", Toast.LENGTH_LONG).show();
-//
-//                        }
+                        if (caminhosEncontrados.size() == 0)
+                        {
+                            Toast.makeText(getApplicationContext(), "Não achou caminho!", Toast.LENGTH_LONG).show();
+                        }
+
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -132,7 +143,7 @@ public class MainActivity extends AppCompatActivity {
         btnDijkstra.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                caminhosEncontrados.clear();
                 if(spiOrig.getSelectedItem().toString().compareTo(spiDest.getSelectedItem().toString()) == 0){
                     Toast.makeText(getApplicationContext(),"Erro!\nCidade de origem igual cidade de destino",Toast.LENGTH_LONG).show();
                 } else {
@@ -155,53 +166,40 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
 
-//                for (int cont = 0; cont < caminhosEncontrados.size(); cont++)
-//                {
-                int cont = 0;
-                Cidade cidadeUm = new Cidade(caminhosEncontrados.get(cont), 0, 0, null);
+                for (int cont = 0; cont < caminhosEncontrados.size(); cont++)
+                {
+
+                Cidade cidadeUm = new Cidade(caminhosEncontrados.get(cont), 0, 0);
                 int i = oGrafoRec.cidadeId(cidadeUm.nomeCidade, asCidades);
 
                 double x = asCidades[i].coordenadaX;
                 double y = asCidades[i].coordenadaY;
 
-                Cidade cidadeDois = new Cidade(caminhosEncontrados.get(++cont), 0, 0, null);
+                if (cont > caminhosEncontrados.size())
+                    cont--;
+
+                Cidade cidadeDois = new Cidade(caminhosEncontrados.get(++cont), 0, 0);
 
                 i = oGrafoRec.cidadeId(cidadeDois.nomeCidade, asCidades);
 
                 double x2 = asCidades[i].coordenadaX;
                 double y2 = asCidades[i].coordenadaY;
 
-                linha(x, y, x2, y2);
-//                }
+                linha(x, y, x2, y2,canvas,mutableBitmap,paint);
+                }
             }
         });
+
     }
 
 
-    public void desenhar(){
-        BitmapFactory.Options myOptions = new BitmapFactory.Options();
-        myOptions.inDither = true;
-        myOptions.inScaled = false;
-        myOptions.inPreferredConfig = Bitmap.Config.ARGB_8888;// important
-        myOptions.inPurgeable = true;
-
-        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.mars_political_map_by_axiaterraartunion_d4vfxdf,myOptions);
-        Paint paint = new Paint();
-        paint.setAntiAlias(true);
-        paint.setColor(Color.BLACK);
-        paint.setTextSize(100);
-
-        Bitmap workingBitmap = Bitmap.createBitmap(bitmap);
-        Bitmap mutableBitmap = workingBitmap.copy(Bitmap.Config.ARGB_8888, true);
-
-
-        Canvas canvas = new Canvas(mutableBitmap);
+    public void desenhar(Bitmap mutableBitmap,Paint paint,Canvas canvas){
 
         for(int i = 0;i < asCidades.length;i++){
             Cidade cid = asCidades[i];
 
-            float x = (float)cid.coordenadaX * 3500;
-            float y = (float)cid.coordenadaY * 2000;
+            float x = (float) (cid.coordenadaX * 3500);
+            float y = (float) (cid.coordenadaY * 2000);
             canvas.drawCircle(x, y, 20, paint);
             canvas.drawText(cid.getNome(),x,y, paint);
             imgMapa.setAdjustViewBounds(true);
@@ -209,28 +207,10 @@ public class MainActivity extends AppCompatActivity {
         }
 
     }
-    public void linha(double coordX, double coordY, double coordX2, double coordY2){
-        BitmapFactory.Options myOptions = new BitmapFactory.Options();
-        myOptions.inDither = true;
-        myOptions.inScaled = false;
-        myOptions.inPreferredConfig = Bitmap.Config.ARGB_8888;// important
-        myOptions.inPurgeable = true;
+    public void linha(double coordX, double coordY, double coordX2, double coordY2,Canvas canvas, Bitmap mutableBitmap,Paint paint){
 
-        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.mars_political_map_by_axiaterraartunion_d4vfxdf, myOptions);
-        Paint paint = new Paint();
-        paint.setAntiAlias(true);
-        paint.setColor(Color.BLUE);
-        paint.setTextSize(100);
-
-        Bitmap workingBitmap = Bitmap.createBitmap(bitmap);
-        Bitmap mutableBitmap = workingBitmap.copy(Bitmap.Config.ARGB_8888, true);
-
-        Canvas canvas = new Canvas(mutableBitmap);
-        // canvas.drawCircle(60, 50, 25, paint);
-        paint.setStrokeWidth(30);
-
-        float x = (float) (coordX * 3500);
-        float y = (float) (coordY * 2000);
+        float x  = (float) (coordX  * 3500);
+        float y  = (float) (coordY  * 2000);
         float x2 = (float) (coordX2 * 3500);
         float y2 = (float) (coordY2 * 2000);
 

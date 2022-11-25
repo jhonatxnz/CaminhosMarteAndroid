@@ -9,6 +9,7 @@ import android.widget.Toast;
 
 import java.io.Console;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Stack;
 
@@ -304,10 +305,7 @@ public class Grafo {
 
         System.err.println(resultado);
         aux = resultado.split(" --> ");
-
-        for(int i = 0; i < aux.length;i++){
-            caminhooEncontradoss.add(aux[i]);
-        }
+        Collections.addAll(caminhooEncontradoss, aux);
 
         return caminhooEncontradoss;
     }

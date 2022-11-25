@@ -4,18 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Cidade implements Comparable<Cidade> {
-    List<Cidade> cidadesJson = new ArrayList<Cidade>();
+
     public final int tamanhoNome = 15;
     public String nomeCidade;
     double coordenadaX, coordenadaY;
-    //atributo para os caminhos
-    ListaSimples<Caminho> cams;
 
 
-    //        final int tamanhoRegistro =
-//        tamanhoNome;       // nome
-//        sizeof(double) +    // x
-//        sizeof(double);     // y
     public static String padRight(String s, int n) {
         return String.format("%-" + n + "s", s);
     }
@@ -44,28 +38,21 @@ public class Cidade implements Comparable<Cidade> {
         this.coordenadaY = coordenadaY;
     }
 
-    public ListaSimples<Caminho> getCams() {
-        return cams;
-    }
 
-    public void setCams(ListaSimples<Caminho> cams) {
-        this.cams = cams;
-    }
 
     public Cidade()  // construtor default (construtor vazio), sem parâmetros
     {
         this.nomeCidade = "";
         this.coordenadaX = 0;
         this.coordenadaY = 0;
-        this.cams = null;
+
     }
 
 
-    public Cidade(String nome, double x, double y, ListaSimples<Caminho> cams) {
+    public Cidade(String nome, double x, double y) {
         this.nomeCidade = nome;
         this.coordenadaX = x;
         this.coordenadaY = y;
-        this.cams = cams;
     }
 
     public Cidade(String nome) {
