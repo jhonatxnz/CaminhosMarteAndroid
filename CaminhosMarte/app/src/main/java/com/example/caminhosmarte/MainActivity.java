@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
     Cidade []asCidades       = new Cidade[23];
     Ligacao []osCaminhos     = new Ligacao[28];
     GrafoBackTracking oGrafoRec;
-    String []caminhosEncontrados = new String[26];
+    List<String> caminhosEncontrados = new ArrayList<String>();
     Grafo oGrafo;
 
 
@@ -104,11 +104,11 @@ public class MainActivity extends AppCompatActivity {
 
                     int origem  = oGrafoRec.cidadeId(spiOrig.getSelectedItem().toString(),asCidades);
                     int destino = oGrafoRec.cidadeId(spiDest.getSelectedItem().toString(),asCidades);
-                    caminhosEncontrados =  oGrafoRec.Recursao(dgvCaminhos);
+
 
 
                     try {
-//                        Stack<Movimento> caminhos = oGrafoRec.Recursao(origem,destino,asCidades);
+                        caminhosEncontrados =  oGrafoRec.Recursao(dgvCaminhos,origem,destino,asCidades);
 //                        if (listCaminho.size() <= 0)
 //                        {
 //                            Toast.makeText(getApplicationContext(), "Não achou caminho!", Toast.LENGTH_LONG).show();
@@ -147,7 +147,7 @@ public class MainActivity extends AppCompatActivity {
                     for (Ligacao cam : osCaminhos) {
                         oGrafo.novaAresta(oGrafoRec.cidadeId(cam.origem,asCidades),oGrafoRec.cidadeId(cam.destino,asCidades),cam.distancia);
                     }
-                    oGrafo.menorCaminho(origem,destino,dgvCaminhos);
+                    caminhosEncontrados = oGrafo.menorCaminho(origem,destino,dgvCaminhos);
                 }
             }
         });
@@ -155,16 +155,16 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
 
-//                for (int cont = 0; cont < oGrafo.gambiarra.length; cont++)
+//                for (int cont = 0; cont < caminhosEncontrados.size(); cont++)
 //                {
                 int cont = 0;
-                Cidade cidadeUm = new Cidade(oGrafo.caminhosEncontrados[cont], 0, 0, null);
+                Cidade cidadeUm = new Cidade(caminhosEncontrados.get(cont), 0, 0, null);
                 int i = oGrafoRec.cidadeId(cidadeUm.nomeCidade, asCidades);
 
                 double x = asCidades[i].coordenadaX;
                 double y = asCidades[i].coordenadaY;
 
-                Cidade cidadeDois = new Cidade(oGrafo.caminhosEncontrados[++cont], 0, 0, null);
+                Cidade cidadeDois = new Cidade(caminhosEncontrados.get(++cont), 0, 0, null);
 
                 i = oGrafoRec.cidadeId(cidadeDois.nomeCidade, asCidades);
 

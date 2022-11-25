@@ -24,8 +24,8 @@ public class Grafo {
     long doInicioAteAtual; // global usada para ajustar menor caminho com Djikstra
     int nTree;
 
-    String [] caminhosEncontrados;
-
+    String [] aux;
+    List<String> caminhooEncontradoss = new ArrayList<String>();
     public Grafo(int number) {
         NUM_VERTICES = number;
         vertices = new Vertice[NUM_VERTICES];
@@ -40,7 +40,7 @@ public class Grafo {
         percurso = new DistOriginal[NUM_VERTICES];
     }
 
-    public String menorCaminho(int inicioDoPercurso, int finalDoPercurso, GridView gv)
+    public List<String> menorCaminho(int inicioDoPercurso, int finalDoPercurso, GridView gv)
     {
         for (int j = 0; j < numVerts; j++)
             vertices[j].foiVisitado = false;
@@ -269,7 +269,7 @@ public class Grafo {
                 percursoEmProfundidadeRec(adjMatrix, numVerts, i);
     }
 
-    public String exibirPercursos(int inicioDoPercurso, int finalDoPercurso, GridView gv)
+    public List<String> exibirPercursos(int inicioDoPercurso, int finalDoPercurso, GridView gv)
     {
         String resultado = "";
 
@@ -303,8 +303,12 @@ public class Grafo {
         }
 
         System.err.println(resultado);
-        caminhosEncontrados = resultado.split(" --> ");
+        aux = resultado.split(" --> ");
 
-        return resultado;
+        for(int i = 0; i < aux.length;i++){
+            caminhooEncontradoss.add(aux[i]);
+        }
+
+        return caminhooEncontradoss;
     }
 }

@@ -1,6 +1,7 @@
 package com.example.caminhosmarte;
 
 import java.util.Locale;
+import java.util.Stack;
 
 public class Caminho implements Comparable<Caminho> {
     public final int tamCidadeOrigem = 15;
@@ -9,7 +10,7 @@ public class Caminho implements Comparable<Caminho> {
     private String origem;
     private String destino;
     int distancia, tempo, custo;
-
+    private Stack<Movimento> movimentos;
 
 //    final int tamanhoRegistro =
 //            tamCidadeOrigem +  // cidadeOrigem
@@ -90,6 +91,14 @@ public class Caminho implements Comparable<Caminho> {
 
     public int CompareTo(Caminho caminho) {
         return 0;
+    }
+
+    public Stack<Movimento> getMovimentos() {
+        return movimentos;
+    }
+
+    public void setMovimentos(Stack<Movimento> movimentos) {
+        this.movimentos = movimentos;
     }
 }
 
