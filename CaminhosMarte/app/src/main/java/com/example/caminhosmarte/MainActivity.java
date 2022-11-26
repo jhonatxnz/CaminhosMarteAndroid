@@ -36,8 +36,8 @@ public class MainActivity extends AppCompatActivity {
     Ligacao []osCaminhos             = new Ligacao[28];
     List<String> caminhosEncontrados = new ArrayList<String>();
     GrafoBackTracking oGrafoRec;
-
     Grafo oGrafo;
+    String[] gambiarra;
 
 
     @Override
@@ -123,8 +123,6 @@ public class MainActivity extends AppCompatActivity {
                     int origem  = oGrafoRec.cidadeId(spiOrig.getSelectedItem().toString(),asCidades);
                     int destino = oGrafoRec.cidadeId(spiDest.getSelectedItem().toString(),asCidades);
 
-
-
                     try {
                         caminhosEncontrados =  oGrafoRec.Recursao(dgvCaminhos,origem,destino,asCidades);
                         if (caminhosEncontrados.size() == 0)
@@ -165,20 +163,21 @@ public class MainActivity extends AppCompatActivity {
         dgvCaminhos.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+                String[] cidades = caminhosEncontrados.get(position).split(" --> ");
 
-                for (int cont = 0; cont < caminhosEncontrados.size(); cont++)
+                for (int cont = 0; cont < cidades.length; cont++)
                 {
                     if(cont != 0){
                         cont--;
                     }
 
-                Cidade cidadeUm = new Cidade(caminhosEncontrados.get(cont), 0, 0);
+                Cidade cidadeUm = new Cidade(cidades[cont], 0, 0);
                 int i = oGrafoRec.cidadeId(cidadeUm.nomeCidade, asCidades);
 
                 double x = asCidades[i].coordenadaX;
                 double y = asCidades[i].coordenadaY;
 
-                Cidade cidadeDois = new Cidade(caminhosEncontrados.get(++cont), 0, 0);
+                Cidade cidadeDois = new Cidade(cidades[++cont], 0, 0);
 
                 i = oGrafoRec.cidadeId(cidadeDois.nomeCidade, asCidades);
 

@@ -11,7 +11,7 @@ public class GrafoBackTracking {
     int qtasCidades;
     int [][]matriz;
     Ligacao[][] matriz2;
-
+    int aux = 0;
     List<String> caminhosEncontrados = new ArrayList<String>();
     Stack<Movimento> pilhaMovimento = new Stack<Movimento>();
     boolean []passou;
@@ -65,20 +65,23 @@ public List<String> Recursao(GridView gv,int cidadeOrigem,int cidadeDestino,Cida
         if (i == cidadeDestino) // se chegou ao destino
         {
             achou = true;
-            Caminho novoCaminho = new Caminho();
-            novoCaminho.setMovimentos(pilhaMovimento);
+//            Caminho novoCaminho = new Caminho();
+//            novoCaminho.setMovimentos(pilhaMovimento);
             resultado += asCidades[cidadeDestino].nomeCidade;
             System.err.println("Caminho encontrado:" + resultado);
             cidadeModelArrayList.add(new CidadeModel(resultado));
             CidadeAdapter adapter = new CidadeAdapter(gv.getContext(), cidadeModelArrayList);
             gv.setAdapter(adapter);
+            caminhosEncontrados.add(resultado);
+            resultado = asCidades[aux].nomeCidade + " --> ";
 
-            caminhosEncontrados.add(novoCaminho.getMovimentos().toString());
             pilhaMovimento.pop(); // busca novos caminhos
             passou[i] = false;
         }
-        else
-            Recursao(gv, i, cidadeDestino, asCidades); // backtracking
+        else{
+            aux = cidadeOrigem;
+            Recursao(gv, i, cidadeDestino, asCidades);
+        }
     }
 
     if (!pilhaMovimento.empty())
