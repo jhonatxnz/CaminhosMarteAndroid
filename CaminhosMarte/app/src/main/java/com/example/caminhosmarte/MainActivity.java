@@ -168,15 +168,15 @@ public class MainActivity extends AppCompatActivity {
 
                 for (int cont = 0; cont < caminhosEncontrados.size(); cont++)
                 {
+                    if(cont != 0){
+                        cont--;
+                    }
 
                 Cidade cidadeUm = new Cidade(caminhosEncontrados.get(cont), 0, 0);
                 int i = oGrafoRec.cidadeId(cidadeUm.nomeCidade, asCidades);
 
                 double x = asCidades[i].coordenadaX;
                 double y = asCidades[i].coordenadaY;
-
-                if (cont > caminhosEncontrados.size())
-                    cont--;
 
                 Cidade cidadeDois = new Cidade(caminhosEncontrados.get(++cont), 0, 0);
 
