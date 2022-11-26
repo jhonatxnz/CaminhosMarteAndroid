@@ -1,6 +1,5 @@
 package com.example.caminhosmarte;
 
-import java.util.Locale;
 import java.util.Stack;
 
 public class Caminho implements Comparable<Caminho> {

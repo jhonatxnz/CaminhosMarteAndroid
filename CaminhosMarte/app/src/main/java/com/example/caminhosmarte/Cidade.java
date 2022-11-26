@@ -1,8 +1,5 @@
 package com.example.caminhosmarte;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class Cidade implements Comparable<Cidade> {
 
     public final int tamanhoNome = 15;

@@ -1,13 +1,9 @@
 package com.example.caminhosmarte;
 
 import android.annotation.SuppressLint;
-import android.graphics.Canvas;
-import android.graphics.Paint;
 import android.widget.GridView;
-import android.widget.ImageView;
 import android.widget.Toast;
 
-import java.io.Console;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -24,9 +20,9 @@ public class Grafo {
     int verticeAtual; // global que indica o vértice atualmente sendo visitado
     long doInicioAteAtual; // global usada para ajustar menor caminho com Djikstra
     int nTree;
-
-
+    //Variável que armazena os caminhos encontrados
     List<String> caminhooEncontradoss = new ArrayList<String>();
+
     public Grafo(int number) {
         NUM_VERTICES = number;
         vertices = new Vertice[NUM_VERTICES];
@@ -41,21 +37,19 @@ public class Grafo {
         percurso = new DistOriginal[NUM_VERTICES];
     }
 
-    public List<String> menorCaminho(int inicioDoPercurso, int finalDoPercurso, GridView gv)
-    {
+    //Método da apostila só adaptamos para o java
+    public List<String> menorCaminho(int inicioDoPercurso, int finalDoPercurso, GridView gv) {
         for (int j = 0; j < numVerts; j++)
             vertices[j].foiVisitado = false;
 
         vertices[inicioDoPercurso].foiVisitado = true;
 
-        for (int j = 0; j < numVerts; j++)
-        {
+        for (int j = 0; j < numVerts; j++) {
             int tempDist = adjMatrix[inicioDoPercurso][j];
             percurso[j] = new DistOriginal(inicioDoPercurso, tempDist);
         }
 
-        for (int nTree = 0; nTree < numVerts; nTree++)
-        {
+        for (int nTree = 0; nTree < numVerts; nTree++) {
             int indiceDoMenor = obterMenor();
             long distanciaMinima = percurso[indiceDoMenor].distancia;
             verticeAtual = indiceDoMenor;
@@ -66,8 +60,7 @@ public class Grafo {
         return exibirPercursos(inicioDoPercurso, finalDoPercurso, gv);
     }
 
-    public void ajustarMenorCaminho()
-    {
+    public void ajustarMenorCaminho() {
         for (int coluna = 0; coluna < numVerts; coluna++)
             if (!vertices[coluna].foiVisitado) // para cada vértice ainda não visitado
             {
@@ -78,8 +71,7 @@ public class Grafo {
 
                 long distanciaDoCaminho = percurso[coluna].distancia;
 
-                if (doInicioAteMargem < distanciaDoCaminho)
-                {
+                if (doInicioAteMargem < distanciaDoCaminho) {
                     percurso[coluna].verticePai = verticeAtual;
                     percurso[coluna].distancia = doInicioAteMargem;
                     // exibirTabela(lista);
@@ -88,11 +80,9 @@ public class Grafo {
     }
 
     @SuppressLint("SuspiciousIndentation")
-    public void exibirTabela(List<String> lista)
-    {
+    public void exibirTabela(List<String> lista) {
         String dist = "";
-        for (int i = 0; i < numVerts; i++)
-        {
+        for (int i = 0; i < numVerts; i++) {
             if (percurso[i].distancia == infinity)
                 dist = "inf";
             else
@@ -102,21 +92,18 @@ public class Grafo {
         }
     }
 
-    public int obterMenor()
-    {
+    public int obterMenor() {
         long distanciaMinima = infinity;
         int indiceDaMinima = 0;
         for (int j = 0; j < numVerts; j++)
-            if (!(vertices[j].foiVisitado) && (percurso[j].distancia < distanciaMinima) && (percurso[j].distancia != infinity))
-            {
+            if (!(vertices[j].foiVisitado) && (percurso[j].distancia < distanciaMinima) && (percurso[j].distancia != infinity)) {
                 distanciaMinima = percurso[j].distancia;
                 indiceDaMinima = j;
             }
         return indiceDaMinima;
     }
 
-    public void novoVertice(String label)
-    {
+    public void novoVertice(String label) {
         vertices[numVerts] = new Vertice(label);
         numVerts++;
 //        if (dgv != null) // se foi passado um dataGridView para exibição
@@ -126,21 +113,19 @@ public class Grafo {
 //            dgv.Columns[numVerts].Width = 45;
 //        }
     }
-    public void novaAresta(int origem, int destino, int peso)
-    {
+
+    public void novaAresta(int origem, int destino, int peso) {
         adjMatrix[origem][destino] = peso;
     }
 
     public int semSucessores() // encontra e retorna a linha de um vértice sem sucessores
     {
         boolean temAresta;
-        for (int linha = 0; linha < numVerts; linha++)
-        {
+        for (int linha = 0; linha < numVerts; linha++) {
             temAresta = false;
             for (int col = 0; col < numVerts; col++)
-                if (adjMatrix[linha][col] > 0)
-                {
-                    temAresta= true;
+                if (adjMatrix[linha][col] > 0) {
+                    temAresta = true;
                     break;
                 }
             if (!temAresta)
@@ -148,6 +133,7 @@ public class Grafo {
         }
         return -1;
     }
+
     public void removerVertice(int vert) {
         //  if (dgv != null)
         {
@@ -172,8 +158,7 @@ public class Grafo {
         }
     }
 
-    public void exibirAdjacencias()
-    {
+    public void exibirAdjacencias() {
 //        dgv.RowCount = numVerts+1;
 //        dgv.ColumnCount = numVerts+1;
 //        for (int j = 0; j < numVerts; j++)
@@ -185,30 +170,27 @@ public class Grafo {
 //        }
     }
 
-    private void moverLinhas(int row, int length)
-    {
-        if (row != numVerts-1)
+    private void moverLinhas(int row, int length) {
+        if (row != numVerts - 1)
             for (int col = 0; col < length; col++)
-                adjMatrix[row][col] = adjMatrix[row+1][col]; // desloca para excluir
+                adjMatrix[row][col] = adjMatrix[row + 1][col]; // desloca para excluir
     }
 
-    private void moverColunas(int col, int length)
-    {
+    private void moverColunas(int col, int length) {
         if (col != numVerts - 1)
             for (int row = 0; row < length; row++)
-                adjMatrix[row][col] = adjMatrix[row][col+1]; // desloca para excluir
+                adjMatrix[row][col] = adjMatrix[row][col + 1]; // desloca para excluir
     }
+
     public void exibirVertice(int v) {
         System.out.println(vertices[v].rotulo + " ");
     }
 
-    public String ordenacaoTopologica()
-    {
+    public String ordenacaoTopologica() {
         //IStack<String> gPilha = new IStack<String>(); //guarda a sequência de vértices
         Stack<String> gPilha = new Stack<String>();
         int origVerts = numVerts;
-        while (numVerts > 0)
-        {
+        while (numVerts > 0) {
             int currVertex = semSucessores();
             if (currVertex == -1)
                 return "Erro: grafo possui ciclos.";
@@ -221,8 +203,7 @@ public class Grafo {
         return resultado;
     }
 
-    private int obterVerticeAdjacenteNaoVisitado(int v)
-    {
+    private int obterVerticeAdjacenteNaoVisitado(int v) {
         for (int j = 0; j <= numVerts - 1; j++)
             if ((adjMatrix[v][j] == 1) && (!vertices[j].foiVisitado))
                 return j;
@@ -230,8 +211,7 @@ public class Grafo {
         return -1;
     }
 
-    public void percursoEmProfundidade(/*TextBox txt*/)
-    {
+    public void percursoEmProfundidade(/*TextBox txt*/) {
         //txt.Clear();
         //IStack<Integer> gPilha = new IStack<Integer>(); // para guardar a sequência de vértices
         Stack<Integer> gPilha = new Stack<Integer>();
@@ -239,13 +219,11 @@ public class Grafo {
         exibirVertice(0);
         gPilha.push(0);
         int v;
-        while (gPilha.size() > 0)
-        {
+        while (gPilha.size() > 0) {
             v = obterVerticeAdjacenteNaoVisitado(gPilha.peek());
             if (v == -1)
                 gPilha.pop();
-            else
-            {
+            else {
                 vertices[v].foiVisitado = true;
                 exibirVertice(v/*, txt*/);
                 gPilha.push(v);
@@ -255,13 +233,11 @@ public class Grafo {
             vertices[j].foiVisitado = false;
     }
 
-    void processarNo(int i)
-    {
+    void processarNo(int i) {
         System.out.println(vertices[i].rotulo);
     }
 
-    public void percursoEmProfundidadeRec(int adjMatrix[][], int numVerts, int part)
-    {
+    public void percursoEmProfundidadeRec(int adjMatrix[][], int numVerts, int part) {
         int i;
         processarNo(part);
         vertices[part].foiVisitado = true;
@@ -270,40 +246,43 @@ public class Grafo {
                 percursoEmProfundidadeRec(adjMatrix, numVerts, i);
     }
 
-    public List<String> exibirPercursos(int inicioDoPercurso, int finalDoPercurso, GridView gv)
-    {
+    public List<String> exibirPercursos(int inicioDoPercurso, int finalDoPercurso, GridView gv) {
         String resultado = "";
 
         int onde = finalDoPercurso;
         Stack<String> pilha = new Stack<String>();
         int cont = 0;
-        while (onde != inicioDoPercurso)
-        {
+        while (onde != inicioDoPercurso) {
             onde = percurso[onde].verticePai;
             pilha.push(vertices[onde].rotulo);
             cont++;
         }
 
         resultado = "";
-        while (pilha.size() != 0)
-        {
+        while (pilha.size() != 0) {
             resultado += pilha.pop();
             if (pilha.size() != 0)
                 resultado += " --> ";
         }
+        //Novo arraylist de CidadeModel
         ArrayList<CidadeModel> cidadeModelArrayList = new ArrayList<CidadeModel>();
-        if ((cont == 1) && (percurso[finalDoPercurso].distancia == infinity)){
+
+        if ((cont == 1) && (percurso[finalDoPercurso].distancia == infinity)) {
             resultado = "Não há caminho";
-            Toast.makeText(gv.getContext(), resultado,Toast.LENGTH_LONG).show();;
-        }
-        else{
+            //Exibe um toast na tela
+            Toast.makeText(gv.getContext(), resultado, Toast.LENGTH_LONG).show();
+            ;
+        } else {
             resultado += " --> " + vertices[finalDoPercurso].rotulo;
+            //Adiciona o resultado em uma célula do gridView
             cidadeModelArrayList.add(new CidadeModel(resultado));
             CidadeAdapter adapter = new CidadeAdapter(gv.getContext(), cidadeModelArrayList);
+            //Seta o adapter com o caminho entrado para o gridView
             gv.setAdapter(adapter);
         }
 
         System.err.println(resultado);
+        //Caminhoo encontrados recebe o que estava na string resultado
         Collections.addAll(caminhooEncontradoss, resultado);
 
         return caminhooEncontradoss;

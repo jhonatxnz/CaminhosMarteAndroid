@@ -1,19 +1,8 @@
 package com.example.caminhosmarte;
 
-import java.util.Locale;
+import android.annotation.SuppressLint;
 
 public class Ligacao implements Comparable<Ligacao> {
-    final int tamCodigo = 3,
-            tamDistancia = 5,
-            tamTempo = 4,
-            tamCusto = 4;
-
-    final int iniCodigoOrigem = 0,
-            iniCodigoDestino = iniCodigoOrigem + tamCodigo,
-            iniDistancia = iniCodigoDestino + tamCodigo,
-            iniTempo = iniDistancia + tamDistancia,
-            iniCusto = iniTempo + tamTempo;
-
 
     String origem, destino;
     int distancia, tempo, custo;
@@ -84,31 +73,12 @@ public class Ligacao implements Comparable<Ligacao> {
                 outro.origem.toUpperCase() + outro.destino.toUpperCase());
     }
 
-//    public Ligacao LerRegistro(StreamReader arquivo) {
-//        if (arquivo != null) // arquivo aberto?
-//        {
-//            String linha = arquivo.ReadLine();
-//            IdCidadeOrigem = linha.Substring(iniCodigoOrigem, tamCodigo);
-//            IdCidadeDestino = linha.Substring(iniCodigoDestino, tamCodigo);
-//            Distancia = Integer.parseInt(linha.Substring(iniDistancia, tamDistancia));
-//            Tempo = Integer.parseInt(linha.Substring(iniTempo, tamTempo));
-//            Custo = Integer.parseInt(linha.Substring(iniCusto, tamCusto));
-//            return this; // retorna o próprio objeto Contato, com os dados
-//        }
-//        return default (Ligacao);
-//    }
-//
-//    public void GravarRegistro(StreamWriter arq) {
-//        if (arq != null)  // arquivo de saída aberto?
-//        {
-//            arq.WriteLine(ParaArquivo());
-//        }
-//    }
-
+    @SuppressLint("DefaultLocale")
     public String ParaArquivo() {
         return String.format("%s %s %d %d %d",origem,destino,distancia,tempo,custo);
     }
 
+    @SuppressLint("DefaultLocale")
     public  String ToString() {
         return String.format("%s %s %d %d %d",origem,destino,distancia,tempo,custo);
     }
