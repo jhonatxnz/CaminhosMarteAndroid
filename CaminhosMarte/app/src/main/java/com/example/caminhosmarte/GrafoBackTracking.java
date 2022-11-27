@@ -18,6 +18,7 @@ public class GrafoBackTracking {
     boolean[] passou;
     boolean achou;
     int aux = 0;
+    int soma = 0;
 
     public char getTipoGrafo() {
         return tipoGrafo;
@@ -57,7 +58,11 @@ public class GrafoBackTracking {
             matriz2[cidadeId(lig[i].origem, cidades)][cidadeId(lig[i].destino, cidades)] = lig[i];
         }
     }
-
+    public void limpar(GridView gv){
+        cidadeModelArrayList.clear();
+        CidadeAdapter adapter = new CidadeAdapter(gv.getContext(), cidadeModelArrayList);
+        gv.setAdapter(adapter);
+    }
 
 
     //RECURSÃO
@@ -66,13 +71,14 @@ public class GrafoBackTracking {
         for (int i = 0; i < qtasCidades; i++)
             if ((matriz[cidadeOrigem][i] != 0) && (!passou[i])) {
                 pilhaMovimento.add(new Movimento(cidadeOrigem, i));
+                soma += matriz[cidadeOrigem][i];
                 resultado += asCidades[cidadeOrigem].nomeCidade + " --> ";
                 passou[i] = true;
                 if (i == cidadeDestino) // se chegou ao destino
                 {
                     achou = true;
-                    //            Caminho novoCaminho = new Caminho();
-                    //            novoCaminho.setMovimentos(pilhaMovimento);
+                    Caminho novoCaminho = new Caminho();
+                    novoCaminho.setMovimentos(pilhaMovimento);
                     resultado += asCidades[cidadeDestino].nomeCidade;
                     System.err.println("Caminho encontrado:" + resultado);
 
@@ -94,7 +100,7 @@ public class GrafoBackTracking {
             pilhaMovimento.pop();
             passou[cidadeOrigem] = false;
         }
-
+        System.err.println("Distancia: " + soma);
         return caminhosEncontrados;
     }
 
@@ -104,7 +110,7 @@ public class GrafoBackTracking {
         for (int i = 0; i < cidades.length; i++) {
             //compara cod com cod
             if (cidades[i].getNome().compareTo(nome) == 0) {
-                //retorna o dado atual
+                //retorna o indice
                 return i;
             }
         }

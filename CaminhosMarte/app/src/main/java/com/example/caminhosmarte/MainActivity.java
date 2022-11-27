@@ -39,8 +39,8 @@ public class MainActivity extends AppCompatActivity {
     GridView dgvCaminhos;
 
     //Classes globais
-    Cidade[] asCidades = new Cidade[23];
-    Ligacao[] osCaminhos = new Ligacao[28];
+    Cidade[] asCidades               = new Cidade[23];
+    Ligacao[] osCaminhos             = new Ligacao[28];
     List<String> caminhosEncontrados = new ArrayList<String>();
     GrafoBackTracking oGrafoRec;
     Grafo oGrafo;
@@ -51,15 +51,24 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //Código para salvar o bitmap do mapa de Marte(se essas variáveis estivessem locais em algum método o mapa seria redesenhado, perdendo alterações que poderiam ser feitas)
+        //Encontra elemento por id na classe
+        btnRecursivo = findViewById(R.id.btnRecursivo);
+        btnDijkstra  = findViewById(R.id.btnDijkstra);
+        spiOrig      = findViewById(R.id.spiOrig);
+        spiDest      = findViewById(R.id.spiDest);
+        imgMapa      = findViewById(R.id.imgMapa);
+        dgvCaminhos  = findViewById(R.id.dgvCaminhos);
+        tvDist       = findViewById(R.id.tvDist);
+
+        //Código para salvar o bitmap do mapa de Marte(se essas variáveis estivessem locais em algum método o mapa seria redesenhado, perdendo alterações que poderiam ser feitas posteriomente)
         BitmapFactory.Options myOptions = new BitmapFactory.Options();
-        myOptions.inDither = true;
-        myOptions.inScaled = false;
-        myOptions.inPreferredConfig = Bitmap.Config.ARGB_8888;
-        myOptions.inPurgeable = true;
+        myOptions.inDither              = true;
+        myOptions.inScaled              = false;
+        myOptions.inPreferredConfig     = Bitmap.Config.ARGB_8888;
+        myOptions.inPurgeable           = true;
 
         Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.mars_political_map_by_axiaterraartunion_d4vfxdf, myOptions);
-        Paint paint = new Paint();
+        Paint paint   = new Paint();
         paint.setAntiAlias(true);
         paint.setColor(Color.BLACK);
         paint.setTextSize(100);
@@ -67,17 +76,7 @@ public class MainActivity extends AppCompatActivity {
 
         Bitmap workingBitmap = Bitmap.createBitmap(bitmap);
         Bitmap mutableBitmap = workingBitmap.copy(Bitmap.Config.ARGB_8888, true);
-        Canvas canvas = new Canvas(mutableBitmap);
-
-        //Encontra elemento por id na classe
-        btnRecursivo = findViewById(R.id.btnRecursivo);
-        btnDijkstra = findViewById(R.id.btnDijkstra);
-        spiOrig     = findViewById(R.id.spiOrig);
-        spiDest = findViewById(R.id.spiDest);
-        imgMapa = findViewById(R.id.imgMapa);
-        dgvCaminhos = findViewById(R.id.dgvCaminhos);
-        tvDist = findViewById(R.id.tvDist);
-
+        Canvas canvas        = new Canvas(mutableBitmap);
 
         //https://www.bezkoder.com/java-android-read-json-file-assets-gson/
         //Ler do arquivo json
@@ -86,16 +85,17 @@ public class MainActivity extends AppCompatActivity {
 
         String jsonFileString = Utils.getJsonFromAssets(getApplicationContext(), "cidades.json");
 
-        Gson gson = new Gson();
+        Gson gson         = new Gson();
         Type listUserType = new TypeToken<List<Cidade>>() {
         }.getType();
 
         List<Cidade> citys = gson.fromJson(jsonFileString, listUserType);
         for (int i = 0; i < citys.size(); i++) {
             //Coloca a cidade do arquivo json no vetor de cidades
-            asCidades[i] = citys.get(i);
+            asCidades[i]  = citys.get(i);
             spiCidades[i] = citys.get(i).getNome();
         }
+
         //Adapter para o spinner
         ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, spiCidades);
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -114,8 +114,10 @@ public class MainActivity extends AppCompatActivity {
         for (int i = 0; i < paths.size(); i++) {
             osCaminhos[i] = paths.get(i);
         }
+
         //Desenha as cidades no mapa
         desenhar(mutableBitmap, paint, canvas);
+
         //Monta a matriz de adjacencia
         oGrafoRec = new GrafoBackTracking(osCaminhos, citys.size(), asCidades);
 
@@ -123,42 +125,38 @@ public class MainActivity extends AppCompatActivity {
         btnRecursivo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //Limpa a lista de caminho encontrados
-                caminhosEncontrados.clear();
-
-                if (spiOrig.getSelectedItem().toString().compareTo(spiDest.getSelectedItem().toString()) == 0) {
-                    System.err.println("Erro!\nCidade de origem igual cidade de destino");
-                } else {
-                    //Acha cidade de origem e de destino pelo spinner
-                    int origem = oGrafoRec.cidadeId(spiOrig.getSelectedItem().toString(), asCidades);
-                    int destino = oGrafoRec.cidadeId(spiDest.getSelectedItem().toString(), asCidades);
-
-                    try {
-                        //Lista recebe os caminhos encontrados pelo método de recursão
-                        caminhosEncontrados = oGrafoRec.Recursao(dgvCaminhos, origem, destino, asCidades);
-                        //Se a lista está vazio não achou nenhum caminho
-                        if (caminhosEncontrados.size() == 0) {
-                            Toast.makeText(getApplicationContext(), "Não achou caminho!", Toast.LENGTH_LONG).show();
-                        }
-
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        });
-        //Botão que trata de achar caminhos com algoritimo de dijkstra
-        btnDijkstra.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //Limpa a lista de caminho encontrados
-                caminhosEncontrados.clear();
+                //Limpa o GridView
+                //oGrafoRec.limpar(dgvCaminhos);
 
                 if (spiOrig.getSelectedItem().toString().compareTo(spiDest.getSelectedItem().toString()) == 0) {
                     Toast.makeText(getApplicationContext(), "Erro!\nCidade de origem igual cidade de destino", Toast.LENGTH_LONG).show();
                 } else {
                     //Acha cidade de origem e de destino pelo spinner
-                    int origem = oGrafoRec.cidadeId(spiOrig.getSelectedItem().toString(), asCidades);
+                    int origem  = oGrafoRec.cidadeId(spiOrig.getSelectedItem().toString(), asCidades);
+                    int destino = oGrafoRec.cidadeId(spiDest.getSelectedItem().toString(), asCidades);
+
+                    //Lista recebe os caminhos encontrados pelo método de recursão
+                    caminhosEncontrados = oGrafoRec.Recursao(dgvCaminhos, origem, destino, asCidades);
+                    //Se a lista está vazio não achou nenhum caminho
+                    if (caminhosEncontrados.size() == 0) {
+                        Toast.makeText(getApplicationContext(), "Não achou caminho!", Toast.LENGTH_LONG).show();
+                    }
+                }
+            }
+        });
+
+        //Botão que trata de achar caminhos com algoritimo de dijkstra
+        btnDijkstra.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //Limpa o GridView
+                //oGrafoRec.limpar(dgvCaminhos);
+
+                if (spiOrig.getSelectedItem().toString().compareTo(spiDest.getSelectedItem().toString()) == 0) {
+                    Toast.makeText(getApplicationContext(), "Erro!\nCidade de origem igual cidade de destino", Toast.LENGTH_LONG).show();
+                } else {
+                    //Acha cidade de origem e de destino pelo spinner
+                    int origem  = oGrafoRec.cidadeId(spiOrig.getSelectedItem().toString(), asCidades);
                     int destino = oGrafoRec.cidadeId(spiDest.getSelectedItem().toString(), asCidades);
 
                     oGrafo = new Grafo(asCidades.length);
@@ -175,6 +173,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+
         dgvCaminhos.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
@@ -182,7 +181,7 @@ public class MainActivity extends AppCompatActivity {
                 //Pegamos esse caminho do clique por causa do parâmetro position
                 //Tiramos as " --> " que vieram da string
                 String[] cidades = caminhosEncontrados.get(position).split(" --> ");
-
+                int soma = 0;
                 //Gera uma cor aleátoria
                 Random rnd = new Random();
                 int color = Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256));
@@ -219,6 +218,7 @@ public class MainActivity extends AppCompatActivity {
 
         //Percorre as cidades para podermos desenhar elas no mapa
         for (int i = 0; i < asCidades.length; i++) {
+
             Cidade cid = asCidades[i];
             //X e Y da cidade
             float x = (float) (cid.coordenadaX * 3500);
@@ -239,8 +239,8 @@ public class MainActivity extends AppCompatActivity {
         //Seta cor aleatória
         paint.setColor(color);
         //Onde começa a linha
-        float x = (float) (coordX * 3500);
-        float y = (float) (coordY * 2000);
+        float x  = (float) (coordX  * 3500);
+        float y  = (float) (coordY  * 2000);
         //Onde termina a linha
         float x2 = (float) (coordX2 * 3500);
         float y2 = (float) (coordY2 * 2000);

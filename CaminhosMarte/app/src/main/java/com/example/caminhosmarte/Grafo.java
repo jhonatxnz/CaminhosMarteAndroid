@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Stack;
 
 public class Grafo {
-    private /*final*/ int NUM_VERTICES = 0;
+    private int NUM_VERTICES = 0;
     private Vertice[] vertices;
     private int adjMatrix[][];
     int numVerts;

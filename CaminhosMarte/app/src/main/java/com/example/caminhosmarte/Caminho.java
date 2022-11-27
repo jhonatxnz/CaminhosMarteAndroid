@@ -69,18 +69,11 @@ public class Caminho implements Comparable<Caminho> {
 
     public int compareTo(Caminho outroCam) {
         String iguiOri = "";
-
-
         String iguiDes = "";
         iguiOri = origem + destino;
         iguiDes = outroCam.origem + outroCam.destino;
 
-
         return iguiOri.toUpperCase().compareTo(iguiDes.toUpperCase());
-    }
-
-    public int CompareTo(Caminho caminho) {
-        return 0;
     }
 
     public Stack<Movimento> getMovimentos() {
