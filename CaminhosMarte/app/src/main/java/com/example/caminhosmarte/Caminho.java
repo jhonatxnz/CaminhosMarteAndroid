@@ -82,5 +82,6 @@ public class Caminho implements Comparable<Caminho> {
 
     public void setMovimentos(Stack<Movimento> movimentos) {
         this.movimentos = movimentos;
+
     }
 }

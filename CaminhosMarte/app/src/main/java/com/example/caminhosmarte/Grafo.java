@@ -14,6 +14,7 @@ public class Grafo {
     private Vertice[] vertices;
     private int adjMatrix[][];
     int numVerts;
+    String soma = "";
 
     DistOriginal[] percurso;
     int infinity = Integer.MAX_VALUE;
@@ -252,6 +253,9 @@ public class Grafo {
         int onde = finalDoPercurso;
         Stack<String> pilha = new Stack<String>();
         int cont = 0;
+
+        soma = String.valueOf(percurso[onde].distancia);
+
         while (onde != inicioDoPercurso) {
             onde = percurso[onde].verticePai;
             pilha.push(vertices[onde].rotulo);

@@ -13,10 +13,11 @@ public class GrafoBackTracking {
     Ligacao[][] matriz2;
     List<String> caminhosEncontrados = new ArrayList<String>();
     Stack<Movimento> pilhaMovimento = new Stack<Movimento>();
+    Stack<Caminho> paraSoma = new Stack<Caminho>();
+
     ArrayList<CidadeModel> cidadeModelArrayList = new ArrayList<CidadeModel>();
     String resultado = "";
     boolean[] passou;
-    boolean achou;
     int aux = 0;
     int soma = 0;
 
@@ -70,15 +71,15 @@ public class GrafoBackTracking {
         //Percorre todas as cidades
         for (int i = 0; i < qtasCidades; i++)
             if ((matriz[cidadeOrigem][i] != 0) && (!passou[i])) {
-                pilhaMovimento.add(new Movimento(cidadeOrigem, i));
+                pilhaMovimento.add(new Movimento(cidadeOrigem, i, matriz[cidadeOrigem][i]));
                 soma += matriz[cidadeOrigem][i];
                 resultado += asCidades[cidadeOrigem].nomeCidade + " --> ";
                 passou[i] = true;
                 if (i == cidadeDestino) // se chegou ao destino
                 {
-                    achou = true;
                     Caminho novoCaminho = new Caminho();
                     novoCaminho.setMovimentos(pilhaMovimento);
+                    paraSoma.add(novoCaminho);
                     resultado += asCidades[cidadeDestino].nomeCidade;
                     System.err.println("Caminho encontrado:" + resultado);
 
@@ -86,6 +87,7 @@ public class GrafoBackTracking {
                     CidadeAdapter adapter = new CidadeAdapter(gv.getContext(), cidadeModelArrayList);
                     gv.setAdapter(adapter);
                     caminhosEncontrados.add(resultado);
+
                     resultado = asCidades[aux].nomeCidade + " --> ";
 
                     pilhaMovimento.pop(); // busca novos caminhos
@@ -101,6 +103,7 @@ public class GrafoBackTracking {
             passou[cidadeOrigem] = false;
         }
         System.err.println("Distancia: " + soma);
+        System.err.println("ParaSoma: " + paraSoma.get(1).distancia);
         return caminhosEncontrados;
     }
 

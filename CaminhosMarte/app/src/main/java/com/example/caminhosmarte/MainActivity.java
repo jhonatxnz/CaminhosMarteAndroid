@@ -170,6 +170,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                     //Lista recebe o menor caminho encontrado pelo método menorCaminho(dijkstra)
                     caminhosEncontrados = oGrafo.menorCaminho(origem, destino, dgvCaminhos);
+                    tvDist.setText(tvDist.getText() + " " + oGrafo.soma);
                 }
             }
         });
@@ -177,6 +178,7 @@ public class MainActivity extends AppCompatActivity {
         dgvCaminhos.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+
                 //Vetor que recebe as cidades do caminho encontrado que foi clicado pelo usuario
                 //Pegamos esse caminho do clique por causa do parâmetro position
                 //Tiramos as " --> " que vieram da string
