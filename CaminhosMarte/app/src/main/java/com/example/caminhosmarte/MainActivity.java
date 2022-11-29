@@ -183,7 +183,9 @@ public class MainActivity extends AppCompatActivity {
                 //Pegamos esse caminho do clique por causa do parâmetro position
                 //Tiramos as " --> " que vieram da string
                 String[] cidades = caminhosEncontrados.get(position).split(" --> ");
-                int soma = 0;
+                if(caminhosEncontrados.size() > 1){
+                    tvDist.setText(oGrafoRec.distacias.get(position));
+                }
                 //Gera uma cor aleátoria
                 Random rnd = new Random();
                 int color = Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256));

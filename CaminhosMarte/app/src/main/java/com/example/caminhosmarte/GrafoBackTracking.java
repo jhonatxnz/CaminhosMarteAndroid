@@ -72,22 +72,23 @@ public class GrafoBackTracking {
         for (int i = 0; i < qtasCidades; i++)
             if ((matriz[cidadeOrigem][i] != 0) && (!passou[i])) {
                 pilhaMovimento.add(new Movimento(cidadeOrigem, i, matriz[cidadeOrigem][i]));
-                resultado += asCidades[cidadeOrigem].nomeCidade + " --> ";
                 passou[i] = true;
                 if (i == cidadeDestino) // se chegou ao destino
                 {
                     Caminho novoCaminho = new Caminho();
                     novoCaminho.setMovimentos(pilhaMovimento);
-                    resultado += asCidades[cidadeDestino].nomeCidade;
                     System.err.println("Caminho encontrado:" + resultado);
-
+                    soma = 0;
                     int cont = 0;
+                    resultado = "";
                     for (Movimento mov:
                          pilhaMovimento) {
+                        resultado += asCidades[mov.Origem()].nomeCidade + " --> ";
                         soma += pilhaMovimento.get(cont).getDistacia();
                         System.err.println("soma"+ pilhaMovimento.get(cont).getDistacia());
                         cont++;
                     }
+                    resultado += asCidades[cidadeDestino].nomeCidade;
                     distacias.add(String.valueOf(soma));
                     System.err.println(distacias.get(0));
 
