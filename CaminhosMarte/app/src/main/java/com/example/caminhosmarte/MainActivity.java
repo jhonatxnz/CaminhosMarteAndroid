@@ -126,7 +126,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 //Limpa o GridView
-                //oGrafoRec.limpar(dgvCaminhos);
 
                 if (spiOrig.getSelectedItem().toString().compareTo(spiDest.getSelectedItem().toString()) == 0) {
                     Toast.makeText(getApplicationContext(), "Erro!\nCidade de origem igual cidade de destino", Toast.LENGTH_LONG).show();
@@ -149,8 +148,6 @@ public class MainActivity extends AppCompatActivity {
         btnDijkstra.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //Limpa o GridView
-                //oGrafoRec.limpar(dgvCaminhos);
 
                 if (spiOrig.getSelectedItem().toString().compareTo(spiDest.getSelectedItem().toString()) == 0) {
                     Toast.makeText(getApplicationContext(), "Erro!\nCidade de origem igual cidade de destino", Toast.LENGTH_LONG).show();
@@ -170,7 +167,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                     //Lista recebe o menor caminho encontrado pelo método menorCaminho(dijkstra)
                     caminhosEncontrados = oGrafo.menorCaminho(origem, destino, dgvCaminhos);
-                    tvDist.setText(tvDist.getText() + " " + oGrafo.soma);
+                    tvDist.setText(oGrafo.soma);
                 }
             }
         });
