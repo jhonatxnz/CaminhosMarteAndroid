@@ -126,7 +126,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 //Limpa o GridView
-
+                //oGrafoRec.limpar(dgvCaminhos);
                 if (spiOrig.getSelectedItem().toString().compareTo(spiDest.getSelectedItem().toString()) == 0) {
                     Toast.makeText(getApplicationContext(), "Erro!\nCidade de origem igual cidade de destino", Toast.LENGTH_LONG).show();
                 } else {
@@ -222,8 +222,8 @@ public class MainActivity extends AppCompatActivity {
 
             Cidade cid = asCidades[i];
             //X e Y da cidade
-            float x = (float) (cid.coordenadaX * 3500);
-            float y = (float) (cid.coordenadaY * 2000);
+            float x = (float) (cid.coordenadaX * mutableBitmap.getWidth());
+            float y = (float) (cid.coordenadaY * mutableBitmap.getHeight());
             //Desenha bolinha no X e Y
             canvas.drawCircle(x, y, 20, paint);
             //Desenha nome da cidade no X e Y
